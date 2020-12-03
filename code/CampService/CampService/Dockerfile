@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["CampService/CampService.csproj", "CampService/"]
-RUN dotnet restore "CampService/CampService.csproj"
+COPY ["CampService/Camps.API.csproj", "CampService/"]
+RUN dotnet restore "CampService/Camps.API.csproj"
 COPY . .
 WORKDIR "/src/CampService"
-RUN dotnet build "CampService.csproj" -c Release -o /app/build
+RUN dotnet build "Camps.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "CampService.csproj" -c Release -o /app/publish
+RUN dotnet publish "Camps.API.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CampService.dll"]
+ENTRYPOINT ["dotnet", "Camps.API.dll"]
