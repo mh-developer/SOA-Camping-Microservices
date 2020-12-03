@@ -15,6 +15,6 @@ app.use("/spaces", spacesRoutes);
 
 app.use("/", indexRoutes);
 
-app.listen(port, "localhost", () => {
+app.listen(port, () => {
 	console.log(`App started on port: ${port}`);
 })
