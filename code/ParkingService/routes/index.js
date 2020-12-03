@@ -2,17 +2,6 @@ const express = require("express"),
 	router = express.Router({ mergeParams: true });
 
 
-
-
-
-
-
-
-
-
-
-
-	
 router.get("*", (req, res)=>{
 	console.log(`Request to ${req.path}`);
 	res.status(404);
