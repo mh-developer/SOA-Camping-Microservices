@@ -1,0 +1,232 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "SUA Project Parking Spaces REST API documentation.",
+    "description": "My User Project Application API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:5000",
+  "basePath": "/spaces",
+  "tags": [
+    {
+      "name": "Spaces",
+      "description": "API parking spaces in the system and working with it."
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/spaces": {
+      "get": {
+        "tags": ["Spaces"],
+        "summary": "Get all parking spaces in the system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Space"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Spaces"],
+        "summary": "Create a new parking space with a random ID.",
+        "description": "Create new Space in system with the specified ID",
+        "parameters": [
+          {
+            "name": "space",
+            "in": "body",
+            "description": "Dodamo novo parkirno mesto",
+            "schema": {
+              "$ref": "#/definitions/Space"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/GenericStringResponse"
+            }
+          }
+        }
+      }
+    },
+    "/spaces/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID parkirnega mesta",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Space"],
+        "summary": "Gets the parking space with the designated id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Space"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Space"],
+        "summary": "Create a new parking space with a specific ID.",
+        "description": "Create new Space in system with the specified ID",
+        "parameters": [
+          {
+            "name": "space",
+            "in": "body",
+            "description": "Dodamo novo parkirno mesto",
+            "schema": {
+              "$ref": "#/definitions/SpaceWoID"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/GenericStringResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Space"],
+        "summary": "Updates the parking space with the specified ID",
+        "parameters": [
+          {
+            "name": "space",
+            "in": "body",
+            "description": "Dodamo novo parkirno mesto",
+            "schema": {
+              "$ref": "#/definitions/Space"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GenericStringResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Space"],
+        "summary": "Deletes the parking space with the specified ID",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GenericStringResponse"
+            }
+          }
+        }
+      }
+    },
+    "/spaces/available": {
+      "get": {
+        "tags": ["Spaces"],
+        "summary": "Gets the parking space still available",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Spaces"
+            }
+          }
+        }
+      }
+    },
+    "/spaces/places": {
+      "get": {
+        "tags": ["Spaces"],
+        "summary": "Gets an array of all possible places to park, regardless of availibility",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Places"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Space": {
+      "required": ["_id", "oznaka", "lokacija", "namen", "prost"],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "oznaka": {
+          "type": "string"
+        },
+
+        "lokacija": {
+          "type": "string"
+        },
+        "namen": {
+          "type": "string"
+        },
+        "prost": {
+          "type": "boolean"
+        }
+      }
+    },
+    "SpaceWoID": {
+      "required": ["oznaka", "lokacija", "namen", "prost"],
+      "properties": {
+        "oznaka": {
+          "type": "string"
+        },
+
+        "lokacija": {
+          "type": "string"
+        },
+        "namen": {
+          "type": "string"
+        },
+        "prost": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Spaces": {
+      "type": "array",
+      "$ref": "#/definitions/Space"
+    },
+    "Available": {
+      "type": "array",
+      "$ref": "#/definitions/Space"
+    },
+    "Places": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "GenericStringResponse": {
+      "type": "string"
+    }
+  }
+}

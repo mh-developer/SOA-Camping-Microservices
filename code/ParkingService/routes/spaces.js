@@ -34,7 +34,7 @@ router.get("/available", async (req, res) => {
 		const collection = db.collection("spaces");
 
 		console.log(`Collection is: ${collection}`);
-		collection.find({ prosto: true }).toArray(function (err, docs) {
+		collection.find({ "prost": true }).toArray(function (err, docs) {
 			if (err) throw err;
 			console.log("Found the following records");
 			console.log(docs);
@@ -71,11 +71,11 @@ router.get("/:id", async (req, res) => {
 		const collection = db.collection("spaces");
 
 		console.log(`Collection is: ${collection}`);
-		collection.find({ _id: new ObjectId(req.params.id) }).toArray(function (err, docs) {
+		collection.find({ _id: new ObjectId(req.params.id) }).toArray(function (err, result) {
 			if (err) throw err;
 			console.log("Found the following records");
-			console.log(docs);
-			res.send(docs);
+			console.log(result);
+			res.send(result);
 		});
 
 	} catch (err) {
@@ -92,7 +92,7 @@ router.post("/", async (req, res) => {
 
 		await collection.insertOne(req.body, function (err, result) {
 			console.log(result);
-			res.send(result);
+			res.status(200).send(result.ops[0]._id);
 		});
 	} catch (err) {
 		res.status(500).send('Something broke!');
@@ -102,7 +102,7 @@ router.post("/", async (req, res) => {
 
 router.post("/:id", async (req, res) => {
 	console.log(`Request to: ${req.path}`);
-	req.body._id = req.params.id;
+	req.body._id = new ObjectId(req.params.id);
 	try {
 		const client = await getClient();
 		const db = client.db("parking_servce_db");
@@ -110,7 +110,7 @@ router.post("/:id", async (req, res) => {
 
 		await collection.insertOne(req.body, function (err, result) {
 			console.log(result);
-			res.send(result);
+			res.status(200).send(result);
 		});
 	} catch (err) {
 		res.status(500).send('Something broke!');
@@ -136,7 +136,7 @@ router.put("/:id", async (req, res) => {
 		res.status(500).send('Something broke!');
 	}
 	console.log(req.params.id);
-	res.send(req.params.id)
+	res.status(200).json(req.params.id)
 })
 
 router.delete("/:id", async (req, res) => {
@@ -157,7 +157,7 @@ router.delete("/:id", async (req, res) => {
 		res.status(500).send('Something broke!');
 	}
 	console.log(req.params.id);
-	res.send(req.params.id)
+	res.status(200).json(req.params.id)
 })
 
 
