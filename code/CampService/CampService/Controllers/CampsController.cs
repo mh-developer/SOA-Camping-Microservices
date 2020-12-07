@@ -96,6 +96,44 @@ namespace Camps.API.Controllers
         }
 
         /// <summary>
+        ///     Camp categories list of object
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/Camps/5fc7db84bad96d1122af5644/Categories
+        ///
+        /// </remarks>
+        /// <param name="id">MongoDB object id</param>
+        /// <returns>List of categories</returns>
+        /// <response code="200">Returns list of categories</response>
+        /// <response code="400">Bad request error massage</response>
+        /// <response code="404">Not found camp</response>
+        [HttpGet("{id:length(24)}/Categories")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetCampCategories(string id)
+        {
+            try
+            {
+                var result = await _campsService.GetCampCategories(id);
+                if (result == null)
+                {
+                    _logger.LogError("Error getting camp categories. Camp categories not found.");
+                    return NotFound("Error getting camp categories. Camp categories not found.");
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error getting camp categories.", ex);
+                return BadRequest("Error getting camp categories.");
+            }
+        }
+
+        /// <summary>
         ///     Create camp
         /// </summary>
         /// <remarks>
@@ -107,6 +145,15 @@ namespace Camps.API.Controllers
         ///        "Description": "Tak dobr posu, da te obere do kosti.",
         ///        "Title": "Nartovalski vzorec Obiralec",
         ///        "PhoneNumber": "073322100",
+        ///        "Categories": [
+        ///             {
+        ///                 "Id": "5fce5d80e15eb9e00e02e78d",
+        ///                 "Title": "More more more - kamperina na MORU",
+        ///                 "Description": "More more more more dok ja veslam ona suti sutim i ja.",
+        ///                 "CreateAt": "2020-12-07T16:51:12.445839+00:00",
+        ///                 "UpdatedAt": "2020-12-07T16:51:12.4459116+00:00"
+        ///             }
+        ///         ],
         ///        "LocationX": "45.12312",
         ///        "LocationY": "14.22999"
         ///     }
@@ -152,6 +199,15 @@ namespace Camps.API.Controllers
         ///        "Description": "Tak dobr posu, da te obere do kosti.",
         ///        "Title": "Nartovalski vzorec Obiralec",
         ///        "PhoneNumber": "073322100",
+        ///        "Categories": [
+        ///             {
+        ///                 "Id": "5fce5d80e15eb9e00e02e78d",
+        ///                 "Title": "More more more - kamperina na MORU 2.0",
+        ///                 "Description": "More more more more dok ja veslam ona suti sutim i ja.",
+        ///                 "CreateAt": "2020-12-07T16:51:12.445839+00:00",
+        ///                 "UpdatedAt": "2020-12-07T16:51:12.4459116+00:00"
+        ///             }
+        ///         ],
         ///        "LocationX": "45.12312",
         ///        "LocationY": "14.22999"
         ///     }

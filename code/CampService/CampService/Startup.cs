@@ -35,6 +35,7 @@ namespace Camps.API
             services.AddSingleton<CampsContext>();
 
             services.AddScoped<ICampsService, CampsService>();
+            services.AddScoped<ICategoriesService, CategoriesService>();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options => options.UseMemberCasing());
