@@ -47,7 +47,19 @@ namespace Camps.API
                 {
                     Title = "Camp Service API",
                     Version = "v1",
-                    Description = "Web API for camp management."
+                    Description = "Web API for camp management.",
+                    TermsOfService = new Uri("https://policies.google.com/terms?hl=en-US"),
+                    Contact = new OpenApiContact()
+                    {
+                        Name = "Care iz Omare",
+                        Email = "info@care.si",
+                        Url = new Uri("http://care.si/")
+                    },
+                    License = new OpenApiLicense()
+                    {
+                        Name = "Use under MIT",
+                        Url = new Uri("https://opensource.org/licenses/MIT")
+                    }
                 });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -63,6 +75,10 @@ namespace Camps.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(
+                options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()
+            );
 
             app.UseHttpsRedirection();
 
