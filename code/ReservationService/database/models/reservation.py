@@ -8,6 +8,6 @@ class Reservation(db.Document):
     to_date = db.StringField(required=True)
     type_of_camping = db.StringField(required=False)
     status = db.StringField(required=False)
-    camp = db.ListField(db.StringField(), required=False)
+    camp = db.ListField(required=False)
     created_at = db.StringField(required=False)
     updated_at = db.StringField(required=False)

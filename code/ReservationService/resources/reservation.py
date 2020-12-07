@@ -1,6 +1,8 @@
 from flask import Response, request
 from flask_restful_swagger_3 import Resource, swagger
 from database.models.reservation import Reservation
+import requests
+import os
 
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, ValidationError, InvalidQueryError
 from resources.errors import SchemaValidationError, DataAlreadyExistsError, InternalServerError, UpdatingDataError, \
@@ -20,8 +22,7 @@ class ReservationsApi(Resource):
         try:
             body = request.get_json()
             reservation = Reservation(**body).save()
-            id = reservation.id
-            return {'reservation_id': str(id)}, 201
+            return Response(reservation.to_json(), mimetype="application/json", status=201)
         except (FieldDoesNotExist, ValidationError):
             raise SchemaValidationError
         except NotUniqueError:
@@ -31,6 +32,17 @@ class ReservationsApi(Resource):
 
 
 class ReservationApi(Resource):
+    @swagger.tags(['Reservations'])
+    @swagger.response(response_code=200, description="One reservation")
+    def get(self, reservation_id):
+        try:
+            reservation = Reservation.objects.get(id=reservation_id).to_json()
+            return Response(reservation, mimetype="application/json", status=200)
+        except DoesNotExist:
+            raise DataNotExistsError
+        except Exception:
+            raise InternalServerError
+
     @swagger.tags(['Reservations'])
     @swagger.response(response_code=204, description="No content")
     def put(self, reservation_id):
@@ -56,12 +68,18 @@ class ReservationApi(Resource):
         except Exception:
             raise InternalServerError
 
+
+class ReservationByCampApi(Resource):
     @swagger.tags(['Reservations'])
-    @swagger.response(response_code=200, description="One reservation")
-    def get(self, reservation_id):
+    @swagger.response(response_code=200, description="List of camp reservations")
+    def get(self, camp_id):
         try:
-            reservation = Reservation.objects.get(id=reservation_id).to_json()
-            return Response(reservation, mimetype="application/json", status=200)
+            camp = requests.get(url=f"{os.environ['CAMP_API_URL']}/api/Camps/{camp_id}", verify=False)
+            if camp.status_code != 200:
+                raise DoesNotExist
+
+            reservations = Reservation.objects(__raw__={"camp": {"$elemMatch": {"Id": str(camp_id)}}}).to_json();
+            return Response(reservations, mimetype="application/json", status=200)
         except DoesNotExist:
             raise DataNotExistsError
         except Exception:

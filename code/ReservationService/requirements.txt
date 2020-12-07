@@ -3,3 +3,4 @@ flask_mongoengine
 flask_restful
 flask_restful_swagger_3
 flask_swagger_ui
+requests
