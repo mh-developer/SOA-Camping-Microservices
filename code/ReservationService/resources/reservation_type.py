@@ -1,5 +1,5 @@
-from flask import Response, request, jsonify
-from flask_restful_swagger_3 import Resource, swagger
+from flask import Response, request
+from flask_restful_swagger_3 import Resource, swagger, Schema
 from database.models.reservation_type import ReservationType
 
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, ValidationError, InvalidQueryError
@@ -7,15 +7,38 @@ from resources.errors import SchemaValidationError, DataAlreadyExistsError, Inte
     DeletingDataError, DataNotExistsError
 
 
+class ReservationTypeModel(Schema):
+    type = 'object'
+    properties = {
+        'title': {
+            'type': 'string'
+        },
+        'description': {
+            'type': 'string'
+        },
+        'created_at': {
+            'type': 'string'
+        },
+        'updated_at': {
+            'type': 'string'
+        },
+    }
+
+
 class ReservationTypesApi(Resource):
     @swagger.tags(['ReservationTypes'])
     @swagger.response(response_code=200, description="List of reservation types")
+    @swagger.response(response_code=400, description="Error getting reservation types")
+    @swagger.response(response_code=500, description="Error getting reservation types")
     def get(self):
         reservations_types = ReservationType.objects().to_json()
         return Response(reservations_types, mimetype="application/json", status=200)
 
     @swagger.tags(['ReservationTypes'])
-    @swagger.response(response_code=201, description="Create new reservation type")
+    @swagger.expected(schema=ReservationTypeModel, required=True)
+    @swagger.reorder_with(schema=ReservationTypeModel, description="Create new reservation type", response_code=201)
+    @swagger.response(response_code=400, description="Error creating reservation types")
+    @swagger.response(response_code=500, description="Error creating reservation types")
     def post(self):
         try:
             body = request.get_json()
@@ -32,6 +55,9 @@ class ReservationTypesApi(Resource):
 class ReservationTypeApi(Resource):
     @swagger.tags(['ReservationTypes'])
     @swagger.response(response_code=200, description="One reservation type")
+    @swagger.response(response_code=404, description="Error getting reservation types")
+    @swagger.response(response_code=400, description="Error getting reservation types")
+    @swagger.response(response_code=500, description="Error getting reservation types")
     def get(self, reservations_type_id):
         try:
             reservations_type = ReservationType.objects.get(id=reservations_type_id).to_json()
@@ -42,7 +68,11 @@ class ReservationTypeApi(Resource):
             raise InternalServerError
 
     @swagger.tags(['ReservationTypes'])
+    @swagger.expected(schema=ReservationTypeModel, required=True)
     @swagger.response(response_code=204, description="No content")
+    @swagger.response(response_code=404, description="Error updating reservation types")
+    @swagger.response(response_code=400, description="Error updating reservation types")
+    @swagger.response(response_code=500, description="Error updating reservation types")
     def put(self, reservations_type_id):
         try:
             body = request.get_json()
@@ -57,6 +87,9 @@ class ReservationTypeApi(Resource):
 
     @swagger.tags(['ReservationTypes'])
     @swagger.response(response_code=204, description="No content")
+    @swagger.response(response_code=404, description="Error deleting reservation types")
+    @swagger.response(response_code=400, description="Error deleting reservation types")
+    @swagger.response(response_code=500, description="Error deleting reservation types")
     def delete(self, reservations_type_id):
         try:
             reservations_type = ReservationType.objects.get(id=reservations_type_id).delete()
