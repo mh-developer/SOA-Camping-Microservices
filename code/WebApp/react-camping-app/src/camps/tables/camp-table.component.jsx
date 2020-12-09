@@ -1,31 +1,31 @@
-import React from 'react'
+import React from "react";
 
-const UserTable = props => (
+const CampTable = (props) => (
   <table>
     <thead>
       <tr>
         <th>Name</th>
-        <th>Username</th>
+        <th>Description</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      {props.users.length > 0 ? (
-        props.users.map(user => (
-          <tr key={user.id}>
-            <td>{user.name}</td>
-            <td>{user.username}</td>
+      {props.camps.length > 0 ? (
+        props.camps.map((camp) => (
+          <tr key={camp.Id}>
+            <td>{camp.Name}</td>
+            <td>{camp.Description}</td>
             <td>
               <button
                 onClick={() => {
-                  props.editRow(user)
+                  props.editRow(camp);
                 }}
                 className="button muted-button"
               >
                 Edit
               </button>
               <button
-                onClick={() => props.deleteUser(user.id)}
+                onClick={() => props.deleteCamp(camp.Id)}
                 className="button muted-button"
               >
                 Delete
@@ -35,11 +35,11 @@ const UserTable = props => (
         ))
       ) : (
         <tr>
-          <td colSpan={3}>No users</td>
+          <td colSpan={3}>No camps</td>
         </tr>
       )}
     </tbody>
   </table>
-)
+);
 
-export default UserTable
+export default CampTable;
