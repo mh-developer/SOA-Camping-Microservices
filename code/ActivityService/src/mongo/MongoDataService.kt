@@ -1,5 +1,6 @@
 package si.um.feri.activityservice.mongo
 
+import com.google.gson.Gson
 import com.mongodb.*
 import com.mongodb.MongoClient
 import org.bson.BsonDocument
@@ -39,27 +40,27 @@ class MongoDataService(database: String) {
     }
 
     fun create(collection: String, document: Any): String {
-        return try {
-            val bsonDocument = BsonDocument.parse(document as String?)
+        try {
+            val bsonDocument = BsonDocument.parse(Gson().toJson(document))
             // we create the id ourselves
+            bsonDocument.remove("id")
             bsonDocument.remove("_id")
             val oid = ObjectId()
             bsonDocument.put("_id", BsonObjectId(oid))
-            database.getCollection(collection, BsonDocument::class.java)
-                .insertOne(bsonDocument)
-            oid.toHexString()
+            database.getCollection(collection, BsonDocument::class.java).insertOne(bsonDocument)
+            return oid.toHexString()
         } catch (ex: JsonParseException) {
-            "Invalid JSON: ${ex.localizedMessage}"
+            return "Invalid JSON: ${ex.localizedMessage}"
         }
     }
 
-    fun update(collection: String, id: String?, document: String): Pair<Int, String> {
+    fun update(collection: String, id: String?, document: Any): Pair<Int, String> {
         try {
             if (!ObjectId.isValid(id)) {
                 return Pair(0, "ID not found")
             }
-            val bsonDocument = BsonDocument.parse(document)
-            bsonDocument.remove("_id")
+            val bsonDocument = BsonDocument.parse(Gson().toJson(document))
+            bsonDocument.remove("id")
             val filter = BsonDocument("_id", BsonObjectId(ObjectId(id)))
             val updatedValues =
                 database.getCollection(collection, BsonDocument::class.java)
@@ -80,8 +81,7 @@ class MongoDataService(database: String) {
             return Pair(0, "ID not found")
         }
         val filter = BsonDocument("_id", BsonObjectId(ObjectId(id)))
-        val updatedValues = database.getCollection(collection)
-            .deleteOne(filter).deletedCount
+        val updatedValues = database.getCollection(collection).deleteOne(filter).deletedCount
         if (updatedValues < 1) {
             return Pair(0, "ID not found")
         } else {
