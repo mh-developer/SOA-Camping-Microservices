@@ -3,7 +3,7 @@ buildscript {
         jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
     }
-    
+
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.github.jengelman.gradle.plugins:shadow:5.0.0"
@@ -32,6 +32,7 @@ repositories {
     jcenter()
     maven { url 'https://kotlin.bintray.com/ktor' }
     maven { url 'https://kotlin.bintray.com/kotlin-js-wrappers' }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -45,6 +46,10 @@ dependencies {
     implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
     implementation "io.ktor:ktor-client-apache:$ktor_version"
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
+    implementation "io.ktor:ktor-jackson:$ktor_version"
+    implementation "org.mongodb:mongodb-driver-legacy:4.1.1"
+    implementation "com.github.nielsfalk:ktor-swagger:0.7.0"
+    implementation "io.ktor:ktor-gson:$ktor_version"
 }
 
 shadowJar {

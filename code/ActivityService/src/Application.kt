@@ -1,68 +1,50 @@
 package si.um.feri.activityservice
 
+import de.nielsfalk.ktor.swagger.SwaggerSupport
+import de.nielsfalk.ktor.swagger.version.shared.Contact
+import de.nielsfalk.ktor.swagger.version.shared.Information
+import de.nielsfalk.ktor.swagger.version.v2.Swagger
+import de.nielsfalk.ktor.swagger.version.v3.OpenApi
 import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.request.*
+import io.ktor.features.*
+import io.ktor.gson.*
+import io.ktor.locations.*
 import io.ktor.routing.*
-import io.ktor.http.*
-import io.ktor.html.*
-import kotlinx.html.*
-import kotlinx.css.*
-import io.ktor.client.*
-import io.ktor.client.engine.apache.*
+import si.um.feri.activityservice.routes.activitiesAll
+
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
-    val client = HttpClient(Apache) {
+    install(ContentNegotiation) {
+        gson {
+            setPrettyPrinting()
+        }
+    }
+    install(Locations) {
+    }
+    install(SwaggerSupport) {
+        forwardRoot = true
+        val information = Information(
+            version = "0.1",
+            title = "Activity Service API",
+            description = "Activity service for manage activities in camps.",
+            contact = Contact(
+                name = "Care iz Omare",
+                url = "https://example.com"
+            )
+        )
+        swagger = Swagger().apply {
+            info = information
+        }
+        openApi = OpenApi().apply {
+            info = information
+        }
     }
 
     routing {
-        get("/") {
-            call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
-        }
-
-        get("/html-dsl") {
-            call.respondHtml {
-                body {
-                    h1 { +"HTML" }
-                    ul {
-                        for (n in 1..10) {
-                            li { +"$n" }
-                        }
-                    }
-                }
-            }
-        }
-
-        get("/styles.css") {
-            call.respondCss {
-                body {
-                    backgroundColor = Color.red
-                }
-                p {
-                    fontSize = 2.em
-                }
-                rule("p.myclass") {
-                    color = Color.blue
-                }
-            }
-        }
+        this.activitiesAll()
     }
-}
-
-fun FlowOrMetaDataContent.styleCss(builder: CSSBuilder.() -> Unit) {
-    style(type = ContentType.Text.CSS.toString()) {
-        +CSSBuilder().apply(builder).toString()
-    }
-}
-
-fun CommonAttributeGroupFacade.style(builder: CSSBuilder.() -> Unit) {
-    this.style = CSSBuilder().apply(builder).toString().trim()
-}
-
-suspend inline fun ApplicationCall.respondCss(builder: CSSBuilder.() -> Unit) {
-    this.respondText(CSSBuilder().apply(builder).toString(), ContentType.Text.CSS)
 }
