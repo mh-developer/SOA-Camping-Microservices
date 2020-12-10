@@ -1,0 +1,181 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Checkin Service for AbusementPark",
+    "description": "SUA projekt",
+    "license": {
+      "name": "Aljazs"
+      
+    }
+  
+},
+  "host": "localhost:5000",
+  "basePath": "/checkin",
+  "tags": [
+    {
+      "name": "CheckIn",
+      "description": "API checking."
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": ["CheckIn"],
+        "summary": "Get all checkin info",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CheckIn"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["CheckIn"],
+        "summary": "Create a new checkin with a random ID.",
+        "description": "Create new checkin in system with the specified ID",
+        "parameters": [
+          {
+            "name": "checkin",
+            "in": "body",
+            "description": "Vnesemo checking",
+            "schema": {
+              "$ref": "#/definitions/CheckIn"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/GenericStringResponse"
+            }
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID checking",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Check"],
+        "summary": "Gets the checkin with the designated id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CheckIn"
+            }
+          }
+        }
+      },
+   
+      "patch": {
+        "tags": ["Check"],
+        "summary": "Update",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      
+    },
+      "post": {
+        "tags": ["Check"],
+        "summary": "Create a new Checkin with a specific ID.",
+        "description": "Create new Checkin in system with the specified ID",
+        "parameters": [
+          {
+            "name": "checkin",
+            "in": "body",
+            "description": "Dodamo novo parkirno mesto"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/GenericStringResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Check"],
+        "summary": "Updates the checkin",
+        "parameters": [
+          {
+            "name": "Checkin",
+            "in": "body",
+            "description": "Update checking",
+            "schema": {
+              "$ref": "#/definitions/CheckIn"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Check"],
+        "summary": "Deletes the checkins with the specified ID",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CheckIn"
+            }
+          }
+        }
+      }
+    },
+    "/informations": {
+      "get": {
+        "tags": ["CheckIn"],
+        "summary": "Gets the infos",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+
+  },
+  "definitions": {
+    "CheckIn": {
+      "required": [ "name", "no_people", "date"],
+      "properties": {
+       
+        "name": {
+          "type": "string"
+        },
+
+        "no_people": {
+          "type": "string"
+        },
+        "date": {
+          "type": "Date"
+        }
+      }
+    }
+}
+}

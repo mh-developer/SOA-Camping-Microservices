@@ -13,6 +13,16 @@ api = Api(
     swagger_url="swagger.json",
     title="Reservation service API",
     description="Reservation API for camps reservations",
+    terms="http://example.com/terms/",
+    contact={
+        "name": "API Support",
+        "url": "http://www.example.com/support",
+        "email": "support@example.com"
+    },
+    license={
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
     errors=errors
 )
 

@@ -19,5 +19,8 @@ namespace Camps.API.Infrastructure
 
         public IMongoCollection<Camp> Camps =>
             _database.GetCollection<Camp>(_configuration["CampsDatabaseSettings:CampsCollectionName"]);
+
+        public IMongoCollection<Category> Categories =>
+            _database.GetCollection<Category>(_configuration["CampsDatabaseSettings:CategoriesCollectionName"]);
     }
 }
