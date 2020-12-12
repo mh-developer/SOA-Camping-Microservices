@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { campModel } from "../shared/camp.model";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const AddCampForm = (props) => {
   const [camp, setCamp] = useState(campModel);
@@ -11,7 +12,7 @@ const AddCampForm = (props) => {
   };
 
   return (
-    <form
+    <Form
       onSubmit={(event) => {
         event.preventDefault();
         if (!camp.Name) return;
@@ -20,50 +21,62 @@ const AddCampForm = (props) => {
         setCamp(campModel);
       }}
     >
-      <label>Name</label>
-      <input
-        type="text"
-        name="Name"
-        value={camp.Name}
-        onChange={handleInputChange}
-      />
-      <label>Description</label>
-      <input
-        type="text"
-        name="Description"
-        value={camp.Description}
-        onChange={handleInputChange}
-      />
-      <label>Title</label>
-      <input
-        type="text"
-        name="Title"
-        value={camp.Title}
-        onChange={handleInputChange}
-      />
-      <label>Phone Number</label>
-      <input
-        type="text"
-        name="PhoneNumber"
-        value={camp.PhoneNumber}
-        onChange={handleInputChange}
-      />
-      <label>Location X</label>
-      <input
-        type="text"
-        name="LocationX"
-        value={camp.LocationX}
-        onChange={handleInputChange}
-      />
-      <label>Location Y</label>
-      <input
-        type="text"
-        name="LocationY"
-        value={camp.LocationY}
-        onChange={handleInputChange}
-      />
-      <button>Add new camp</button>
-    </form>
+      <FormGroup>
+        <Label>Name</Label>
+        <Input
+          type="text"
+          name="Name"
+          value={camp.Name}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Description</Label>
+        <Input
+          type="text"
+          name="Description"
+          value={camp.Description}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Title</Label>
+        <Input
+          type="text"
+          name="Title"
+          value={camp.Title}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Phone Number</Label>
+        <Input
+          type="text"
+          name="PhoneNumber"
+          value={camp.PhoneNumber}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Location X</Label>
+        <Input
+          type="text"
+          name="LocationX"
+          value={camp.LocationX}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Location Y</Label>
+        <Input
+          type="text"
+          name="LocationY"
+          value={camp.LocationY}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <Button color="primary">Add new camp</Button>
+    </Form>
   );
 };
 

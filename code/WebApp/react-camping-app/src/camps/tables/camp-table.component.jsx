@@ -1,7 +1,8 @@
 import React from "react";
+import { Table, Button } from "reactstrap";
 
 const CampTable = (props) => (
-  <table>
+  <Table>
     <thead>
       <tr>
         <th>Name</th>
@@ -16,20 +17,24 @@ const CampTable = (props) => (
             <td>{camp.Name}</td>
             <td>{camp.Description}</td>
             <td>
-              <button
+              <Button
+                color="white"
+                size="sm"
                 onClick={() => {
                   props.editRow(camp);
                 }}
                 className="button muted-button"
               >
                 Edit
-              </button>
-              <button
+              </Button>
+              <Button
+                color="white"
+                size="sm"
                 onClick={() => props.deleteCamp(camp.Id)}
                 className="button muted-button"
               >
                 Delete
-              </button>
+              </Button>
             </td>
           </tr>
         ))
@@ -39,7 +44,7 @@ const CampTable = (props) => (
         </tr>
       )}
     </tbody>
-  </table>
+  </Table>
 );
 
 export default CampTable;
