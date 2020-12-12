@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const EditCampForm = (props) => {
   const [camp, setCamp] = useState(props.currentCamp);
@@ -15,63 +16,77 @@ const EditCampForm = (props) => {
   };
 
   return (
-    <form
+    <Form
       onSubmit={(event) => {
         event.preventDefault();
 
         props.updateCamp(camp.Id, camp);
       }}
     >
-      <label>Name</label>
-      <input
-        type="text"
-        name="Name"
-        value={camp.Name}
-        onChange={handleInputChange}
-      />
-      <label>Description</label>
-      <input
-        type="text"
-        name="Description"
-        value={camp.Description}
-        onChange={handleInputChange}
-      />
-      <label>Title</label>
-      <input
-        type="text"
-        name="Title"
-        value={camp.Title}
-        onChange={handleInputChange}
-      />
-      <label>Phone Number</label>
-      <input
-        type="text"
-        name="PhoneNumber"
-        value={camp.PhoneNumber}
-        onChange={handleInputChange}
-      />
-      <label>Location X</label>
-      <input
-        type="text"
-        name="LocationX"
-        value={camp.LocationX}
-        onChange={handleInputChange}
-      />
-      <label>Location Y</label>
-      <input
-        type="text"
-        name="LocationY"
-        value={camp.LocationY}
-        onChange={handleInputChange}
-      />
-      <button>Update camp</button>
-      <button
+      <FormGroup>
+        <Label>Name</Label>
+        <Input
+          type="text"
+          name="Name"
+          value={camp.Name}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Description</Label>
+        <Input
+          type="text"
+          name="Description"
+          value={camp.Description}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Title</Label>
+        <Input
+          type="text"
+          name="Title"
+          value={camp.Title}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Phone Number</Label>
+        <Input
+          type="text"
+          name="PhoneNumber"
+          value={camp.PhoneNumber}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Location X</Label>
+        <Input
+          type="text"
+          name="LocationX"
+          value={camp.LocationX}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Location Y</Label>
+        <Input
+          type="text"
+          name="LocationY"
+          value={camp.LocationY}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <Button color="primary">Update camp</Button>
+      <Button
+        color="white"
+        outline
         onClick={() => props.setEditing(false)}
         className="button muted-button"
       >
         Cancel
-      </button>
-    </form>
+      </Button>
+    </Form>
   );
 };
 
