@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import { Link, NavLink as RouterNavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
@@ -36,11 +36,9 @@ const NavBar = () => {
       <Navbar color="light" light expand="md">
         <Container>
           <NavbarBrand>
-            <img
-              src={icon}
-              alt="Logo"
-              width="70"
-            />
+            <Link to="/" exact>
+              <img src={icon} alt="Logo" width="70" />
+            </Link>
           </NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
