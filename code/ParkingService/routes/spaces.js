@@ -7,13 +7,11 @@ const getClient = require('../db')
 
 
 router.get("/", async (req, res) => {
-	console.log(`Request to: ${req.path}`);
 	try {
 		const client = await getClient();
 		const db = client.db("parking_servce_db");
 		const collection = db.collection("spaces");
 
-		console.log(`Collection is: ${collection}`);
 		collection.find({}).toArray(function (err, docs) {
 			if (err) throw err;
 			console.log("Found the following records");
@@ -33,11 +31,8 @@ router.get("/available", async (req, res) => {
 		const db = client.db("parking_servce_db");
 		const collection = db.collection("spaces");
 
-		console.log(`Collection is: ${collection}`);
 		collection.find({ "prost": true }).toArray(function (err, docs) {
 			if (err) throw err;
-			console.log("Found the following records");
-			console.log(docs);
 			res.send(docs);
 		});
 
@@ -48,13 +43,11 @@ router.get("/available", async (req, res) => {
 
 
 router.get("/places", async (req, res) => {
-	console.log(`Request to: ${req.path}`);
 	try {
 		const client = await getClient();
 		const db = client.db("parking_servce_db");
 		const collection = db.collection("spaces");
 
-		console.log(`Collection is: ${collection}`);
 		const places = await collection.distinct("lokacija")
 		res.send({ places });
 
@@ -64,17 +57,13 @@ router.get("/places", async (req, res) => {
 })
 
 router.get("/:id", async (req, res) => {
-	console.log(`Request to: ${req.path}`);
 	try {
 		const client = await getClient();
 		const db = client.db("parking_servce_db");
 		const collection = db.collection("spaces");
 
-		console.log(`Collection is: ${collection}`);
 		collection.find({ _id: new ObjectId(req.params.id) }).toArray(function (err, result) {
 			if (err) throw err;
-			console.log("Found the following records");
-			console.log(result);
 			res.send(result);
 		});
 
@@ -84,24 +73,20 @@ router.get("/:id", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-	console.log(`Request to: ${req.path}`);
 	try {
 		const client = await getClient();
 		const db = client.db("parking_servce_db");
 		const collection = db.collection("spaces");
 
 		await collection.insertOne(req.body, function (err, result) {
-			console.log(result);
-			res.status(200).send(result.ops[0]._id);
+			res.status(200).send(req.body);
 		});
 	} catch (err) {
 		res.status(500).send('Something broke!');
 	}
-	console.log(req.body);
 })
 
 router.post("/:id", async (req, res) => {
-	console.log(`Request to: ${req.path}`);
 	req.body._id = new ObjectId(req.params.id);
 	try {
 		const client = await getClient();
@@ -109,17 +94,14 @@ router.post("/:id", async (req, res) => {
 		const collection = db.collection("spaces");
 
 		await collection.insertOne(req.body, function (err, result) {
-			console.log(result);
-			res.status(200).send(result);
+			res.status(200).send(req.body);
 		});
 	} catch (err) {
 		res.status(500).send('Something broke!');
 	}
-	console.log(req.body);
 })
 
 router.put("/:id", async (req, res) => {
-	console.log(`Request to: ${req.url}`);
 	const newValues = req.body;
 	delete newValues._id;
 	try {
@@ -135,12 +117,10 @@ router.put("/:id", async (req, res) => {
 	} catch (err) {
 		res.status(500).send('Something broke!');
 	}
-	console.log(req.params.id);
 	res.status(200).json(req.params.id)
 })
 
 router.delete("/:id", async (req, res) => {
-	console.log(`Request to: ${req.url}`);
 	const newValues = req.body;
 	delete newValues._id;
 	try {
@@ -156,7 +136,6 @@ router.delete("/:id", async (req, res) => {
 	} catch (err) {
 		res.status(500).send('Something broke!');
 	}
-	console.log(req.params.id);
 	res.status(200).json(req.params.id)
 })
 

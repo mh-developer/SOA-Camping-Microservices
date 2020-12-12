@@ -1,6 +1,6 @@
 const express = require('express'),
 	app = express(),
-	bodyParser = require('body-parser');
+	cors = require('cors');
 
 const swaggerUi = require('swagger-ui-express'),
 	swaggerDocument = require('./swagger.json');
@@ -10,6 +10,7 @@ const indexRoutes = require('./routes/index.js');
 
 const port = 5000;
 
+app.use(cors());
 app.use(express.json());
 app.use('/man-o-swag', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
