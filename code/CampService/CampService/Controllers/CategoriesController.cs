@@ -1,5 +1,6 @@
 ﻿using Camps.API.Models;
 using Camps.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -115,6 +116,7 @@ namespace Camps.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize]
         public async Task<IActionResult> CreateCategory(Category category)
         {
             try
@@ -158,6 +160,7 @@ namespace Camps.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize]
         public async Task<IActionResult> UpdateCategory(string id, Category categoryIn)
         {
             try
@@ -203,6 +206,7 @@ namespace Camps.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize]
         public async Task<IActionResult> DeleteCategory(string id)
         {
             try

@@ -1,5 +1,6 @@
 using Camps.API.Infrastructure;
 using Camps.API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -40,6 +42,17 @@ namespace Camps.API
             services.AddControllers()
                 .AddNewtonsoftJson(options => options.UseMemberCasing());
 
+            // Add authentication services
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = $"https://{Configuration["Auth0:Domain"]}";
+                    options.Audience = Configuration["Auth0:Audience"];
+                });
 
             // Swagger
             services.AddSwaggerGen(c =>
@@ -66,6 +79,26 @@ namespace Camps.API
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Scheme = "bearer",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Description = "JWT Authorization header using the Bearer scheme.",
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = "Bearer"}
+                        },
+                        new List<string>()
+                    }
+                });
             });
         }
 
@@ -80,8 +113,6 @@ namespace Camps.API
             app.UseCors(
                 options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()
             );
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
