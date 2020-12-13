@@ -1,38 +1,46 @@
 import React from "react";
+import { Table, Button } from "reactstrap";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 const SpaceTable = (props) => (
-  <table>
+  <Table hover striped="true">
     <thead>
       <tr>
         <th>Oznaka</th>
         <th>Lokacija</th>
         <th>Namen</th>
-        <th>Actions</th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
       {props.spaces.length > 0 ? (
         props.spaces.map((spaces) => (
-			
           <tr key={spaces._id}>
             <td>{spaces.oznaka}</td>
             <td>{spaces.lokacija}</td>
             <td>{spaces.namen}</td>
             <td>
-              <button
+              <Button
+                color="warning"
+                size="sm"
                 onClick={() => {
                   props.editRow(spaces);
                 }}
                 className="button muted-button"
               >
-                Edit
-              </button>
-              <button
+                <FiEdit />
+              </Button>
+            </td>
+            <td>
+              <Button
+                color="danger"
+                size="sm"
                 onClick={() => props.deleteSpace(spaces._id)}
                 className="button muted-button"
               >
-                Delete
-              </button>
+                <FiTrash2 />
+              </Button>
             </td>
           </tr>
         ))
@@ -42,7 +50,7 @@ const SpaceTable = (props) => (
         </tr>
       )}
     </tbody>
-  </table>
+  </Table>
 );
 
 export default SpaceTable;

@@ -4,6 +4,7 @@ import EditSpaceForm from "./forms/edit-space-form.component";
 import SpaceTable from "./tables/space-table.component";
 import { spaceModel } from "./shared/space.model";
 import { SpaceService } from "./shared/space.service";
+import { Row, Col } from "reactstrap";
 
 const Spaces = () => {
   // Setting state
@@ -62,7 +63,9 @@ const Spaces = () => {
 
     SpaceService.update(id, updatedSpace)
       .then((response) => {
-        setSpaces(spaces.map((space) => (space._id === id ? updatedSpace : space)));
+        setSpaces(
+          spaces.map((space) => (space._id === id ? updatedSpace : space))
+        );
       })
       .catch((e) => {
         console.log(e);
@@ -76,10 +79,10 @@ const Spaces = () => {
   };
 
   return (
-    <div className="container">
-      <h1>Spaces</h1>
-      <div className="flex-row">
-        <div className="flex-large">
+    <div className="container content">
+      <h1 className="text-center page-title">Spaces</h1>
+      <Row className="d-flex justify-content-between">
+        <Col md={4}>
           {editing ? (
             <Fragment>
               <h2>Edit space</h2>
@@ -92,16 +95,20 @@ const Spaces = () => {
             </Fragment>
           ) : (
             <Fragment>
-              <h2>Add space</h2>
+              <h2>Add new space</h2>
               <AddSpaceForm addSpace={addSpace} />
             </Fragment>
           )}
-        </div>
-        <div className="flex-large">
-          <h2>View spaces</h2>
-          <SpaceTable spaces={spaces} editRow={editRow} deleteSpace={deleteSpace} />
-        </div>
-      </div>
+        </Col>
+
+        <Col md={8} className="tableCol">
+          <SpaceTable
+            spaces={spaces}
+            editRow={editRow}
+            deleteSpace={deleteSpace}
+          />
+        </Col>
+      </Row>
     </div>
   );
 };

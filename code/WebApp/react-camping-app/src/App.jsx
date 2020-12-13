@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Home from "./views/Home";
 import Camps from "./camps/camps";
+import Spaces from "./spaces/spaces";
 import Profile from "./views/Profile";
 import ExternalApi from "./views/ExternalApi";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -34,11 +35,12 @@ const App = () => {
     <Router history={history}>
       <div id="app" className="d-flex flex-column h-100">
         <NavBar />
-        <Container className="flex-grow-1 mt-5">
+        <Container className="flex-grow-1 page-container">
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/profile" component={Profile} />
             <Route path="/camps" component={Camps} />
+            <Route path="/spaces" component={Spaces} />
             <Route path="/external-api" component={ExternalApi} />
           </Switch>
         </Container>

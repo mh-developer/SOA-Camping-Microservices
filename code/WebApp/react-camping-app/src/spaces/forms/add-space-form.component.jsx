@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { spaceModel } from "../shared/space.model";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const AddSpaceForm = (props) => {
   const [space, setSpace] = useState(spaceModel);
@@ -11,7 +12,7 @@ const AddSpaceForm = (props) => {
   };
 
   return (
-    <form
+    <Form
       onSubmit={(event) => {
         event.preventDefault();
         if (!space.oznaka) return;
@@ -20,29 +21,38 @@ const AddSpaceForm = (props) => {
         setSpace(spaceModel);
       }}
     >
-      <label>Oznaka</label>
-      <input
-        type="text"
-        name="oznaka"
-        value={space.oznaka}
-        onChange={handleInputChange}
-      />
-      <label>Lokacija</label>
-      <input
-        type="text"
-        name="lokacija"
-        value={space.lokacija}
-        onChange={handleInputChange}
-      />
-      <label>Namen</label>
-      <input
-        type="text"
-        name="namen"
-        value={space.namen}
-        onChange={handleInputChange}
-      />
-      <button>Dodaj Parkirno Mesto</button>
-    </form>
+      <FormGroup>
+        <Label>Oznaka</Label>
+        <Input
+          type="text"
+          name="oznaka"
+          value={space.oznaka}
+          placeholder="A1"
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Lokacija</Label>
+        <Input
+          type="text"
+          name="lokacija"
+          placeholder="Ob reki"
+          value={space.lokacija}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Namen</Label>
+        <Input
+          type="text"
+          name="namen"
+          placeholder="Avtodom"
+          value={space.namen}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <Button color="primary">Dodaj Parkirno Mesto</Button>
+    </Form>
   );
 };
 
