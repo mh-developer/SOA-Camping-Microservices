@@ -1,51 +1,51 @@
 import React from "react";
+import { Router, Route, Switch } from "react-router-dom";
+import { Container } from "reactstrap";
+
+import Loading from "./components/Loading";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import Home from "./views/Home";
 import Camps from "./camps/camps";
-import Spaces from "./spaces/spaces";
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	Link
-  } from "react-router-dom";
+import Profile from "./views/Profile";
+import ExternalApi from "./views/ExternalApi";
+import { useAuth0 } from "@auth0/auth0-react";
+import history from "./utils/history";
 
-const App = () => (
-	<Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/camps">Camps</Link>
-            </li>
-            <li>
-              <Link to="/spaces">Spaces</Link>
-            </li>
-            {/*<li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>*/}
-          </ul>
-        </nav>
+// styles
+import "./App.css";
 
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/camps">
-            <Camps />
-          </Route>
-          <Route path="/spaces">
-            <Spaces />
-          </Route>
-          {/*<Route path="/users">
-            <Users />
-          </Route>
-          <Route path="/">
-            <Home />
-		</Route>*/}
-        </Switch>
+// fontawesome
+import initFontAwesome from "./utils/initFontAwesome";
+initFontAwesome();
+
+const App = () => {
+  const { isLoading, error } = useAuth0();
+
+  if (error) {
+    return <div>Oops... {error.message}</div>;
+  }
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  return (
+    <Router history={history}>
+      <div id="app" className="d-flex flex-column h-100">
+        <NavBar />
+        <Container className="flex-grow-1 mt-5">
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/camps" component={Camps} />
+            <Route path="/external-api" component={ExternalApi} />
+          </Switch>
+        </Container>
+        <Footer />
       </div>
     </Router>
-);
+  );
+};
 
 export default App;
