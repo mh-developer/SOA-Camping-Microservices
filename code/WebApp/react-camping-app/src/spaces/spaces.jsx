@@ -5,15 +5,19 @@ import SpaceTable from "./tables/space-table.component";
 import { spaceModel } from "./shared/space.model";
 import { SpaceService } from "./shared/space.service";
 import { Row, Col } from "reactstrap";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Spaces = () => {
   // Setting state
   const [spaces, setSpaces] = useState([]);
   const [currentSpace, setCurrentSpace] = useState(spaceModel);
   const [editing, setEditing] = useState(false);
+  const { getAccessTokenSilently } = useAuth0();
 
-  const loadspacesData = useCallback(() => {
-    SpaceService.getAll()
+  const loadspacesData = useCallback(async () => {
+    const token = await getAccessTokenSilently();
+
+    SpaceService.getAll(token)
       .then((response) => {
         if (response.data) {
           setSpaces(response.data);
@@ -22,13 +26,15 @@ const Spaces = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [getAccessTokenSilently]);
 
   useEffect(() => {
     loadspacesData();
   }, [loadspacesData]);
+
   // CRUD operations
-  const addSpace = (space) => {
+  const addSpace = async (space) => {
+    const token = await getAccessTokenSilently();
     const createSpace = {
       oznaka: space.oznaka,
       lokacija: space.lokacija,
@@ -36,7 +42,7 @@ const Spaces = () => {
       prost: space.prost,
     };
 
-    SpaceService.create(createSpace)
+    SpaceService.create(createSpace, token)
       .then((response) => {
         if (response.data) {
           setSpaces([...spaces, response.data]);
@@ -47,9 +53,10 @@ const Spaces = () => {
       });
   };
 
-  const deleteSpace = (id) => {
+  const deleteSpace = async (id) => {
+    const token = await getAccessTokenSilently();
     setEditing(false);
-    SpaceService.remove(id)
+    SpaceService.remove(id, token)
       .then((response) => {
         setSpaces(spaces.filter((space) => space._id !== id));
       })
@@ -58,10 +65,11 @@ const Spaces = () => {
       });
   };
 
-  const updateSpace = (id, updatedSpace) => {
+  const updateSpace = async (id, updatedSpace) => {
+    const token = await getAccessTokenSilently();
     setEditing(false);
 
-    SpaceService.update(id, updatedSpace)
+    SpaceService.update(id, updatedSpace, token)
       .then((response) => {
         setSpaces(
           spaces.map((space) => (space._id === id ? updatedSpace : space))
