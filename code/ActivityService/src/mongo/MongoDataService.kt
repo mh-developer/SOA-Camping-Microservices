@@ -39,7 +39,7 @@ class MongoDataService(database: String) {
         return null
     }
 
-    fun create(collection: String, document: Any): String {
+    fun create(collection: String, document: Any): Pair<Int, Any?> {
         try {
             val bsonDocument = BsonDocument.parse(Gson().toJson(document))
             // we create the id ourselves
@@ -48,9 +48,9 @@ class MongoDataService(database: String) {
             val oid = ObjectId()
             bsonDocument.put("_id", BsonObjectId(oid))
             database.getCollection(collection, BsonDocument::class.java).insertOne(bsonDocument)
-            return oid.toHexString()
+            return Pair(0, this.get(collection, oid.toHexString()))
         } catch (ex: JsonParseException) {
-            return "Invalid JSON: ${ex.localizedMessage}"
+            return Pair(1, "Invalid JSON: ${ex.localizedMessage}")
         }
     }
 

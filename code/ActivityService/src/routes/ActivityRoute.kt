@@ -7,7 +7,6 @@ import io.ktor.http.*
 import io.ktor.locations.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import org.bson.types.ObjectId
 import si.um.feri.activityservice.models.*
 import si.um.feri.activityservice.mongo.MongoDataService
 
@@ -40,11 +39,10 @@ fun Routing.activitiesAll() {
                 )
             )
     ) { _, entity ->
-        val oidOrErrorMessage = mongoDataService.create("Activities", entity)
-        if (ObjectId.isValid(oidOrErrorMessage)) {
-            call.respond(HttpStatusCode.Created, oidOrErrorMessage)
-        } else {
-            call.respond(HttpStatusCode.BadRequest, oidOrErrorMessage)
+        val (status, result) = mongoDataService.create("Activities", entity)
+        when (status) {
+            0 -> call.respond(HttpStatusCode.Created, result as Any)
+            1 -> call.respond(HttpStatusCode.BadRequest, result as Any)
         }
     }
 
