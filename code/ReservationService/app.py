@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restful_swagger_3 import Api
 from database.db import initialize_db
 from resources.routes import initialize_routes
@@ -26,8 +27,10 @@ api = Api(
     errors=errors
 )
 
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
 app.config['MONGODB_SETTINGS'] = {
-    'host': '',
+    'host': 'mongodb+srv://soa-user:soavaje2020@cluster0.cymie.mongodb.net/ReservationsDb?retryWrites=true&w=majority',
     'connect': False,
 }
 
