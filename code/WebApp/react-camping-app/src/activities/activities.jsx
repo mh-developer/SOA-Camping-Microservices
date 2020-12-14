@@ -30,10 +30,8 @@ const Activitys = () => {
   // CRUD operations
   const addActivity = (activity) => {
     const createActivity = {
-      oznaka: activity.oznaka,
-      lokacija: activity.lokacija,
-      namen: activity.namen,
-      prost: activity.prost,
+      id: activity.id,
+      name: activity.name,
     };
 
     ActivityService.create(createActivity)
@@ -82,12 +80,12 @@ const Activitys = () => {
 
   return (
     <div className="container content">
-      <h1 className="text-center page-title">Activitys</h1>
+      <h1 className="text-center page-title">Activities</h1>
       <Row className="d-flex justify-content-between">
         <Col md={4}>
           {editing ? (
             <Fragment>
-              <h2>Edit activity</h2>
+              <h2>Edit activities</h2>
               <EditActivityForm
                 editing={editing}
                 setEditing={setEditing}

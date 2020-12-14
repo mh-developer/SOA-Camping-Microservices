@@ -15,43 +15,25 @@ const AddActivityForm = (props) => {
     <Form
       onSubmit={(event) => {
         event.preventDefault();
-        if (!activity.oznaka) return;
-
+        if (!activity.name) return;
         props.addActivity(activity);
         setActivity(activityModel);
+        console.log("Submit called");
       }}
     >
       <FormGroup>
-        <Label>Oznaka</Label>
+        <Label>Ime</Label>
         <Input
           type="text"
-          name="oznaka"
-          value={activity.oznaka}
-          placeholder="Oznaka"
+          name="name"
+          value={activity.name}
+          placeholder="Ime"
           onChange={handleInputChange}
         />
       </FormGroup>
-      <FormGroup>
-        <Label>Lokacija</Label>
-        <Input
-          type="text"
-          name="lokacija"
-          placeholder="Lokacija"
-          value={activity.lokacija}
-          onChange={handleInputChange}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Namen</Label>
-        <Input
-          type="text"
-          name="namen"
-          placeholder="Namen"
-          value={activity.namen}
-          onChange={handleInputChange}
-        />
-      </FormGroup>
-      <Button color="primary">Dodaj Parkirno Mesto</Button>
+      <Button type="submit" color="primary">
+        Dodaj Novo Aktivnost
+      </Button>
     </Form>
   );
 };

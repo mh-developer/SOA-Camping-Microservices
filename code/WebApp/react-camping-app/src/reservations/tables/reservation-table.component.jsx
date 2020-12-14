@@ -6,9 +6,9 @@ const ReservationTable = (props) => (
   <Table hover striped={true}>
     <thead>
       <tr>
-        <th>Oznaka</th>
-        <th>Lokacija</th>
-        <th>Namen</th>
+        <th>Naslov</th>
+        <th>Od:</th>
+        <th>Do:</th>
         <th>Edit</th>
         <th>Delete</th>
       </tr>
@@ -16,10 +16,11 @@ const ReservationTable = (props) => (
     <tbody>
       {props.reservations.length > 0 ? (
         props.reservations.map((reservations) => (
-          <tr key={reservations._id}>
-            <td>{reservations.oznaka}</td>
-            <td>{reservations.lokacija}</td>
-            <td>{reservations.namen}</td>
+          <tr>
+            {console.log(reservations)}
+            <td>{reservations.title}</td>
+            <td>{reservations.from_date}</td>
+            <td>{reservations.to_date}</td>
             <td>
               <Button
                 color="warning"

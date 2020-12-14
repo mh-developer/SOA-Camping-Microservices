@@ -24,38 +24,11 @@ const EditActivityForm = (props) => {
       }}
     >
       <FormGroup>
-        <Label>Oznaka</Label>
+        <Label>Ime</Label>
         <Input
           type="text"
-          name="oznaka"
-          value={activity.oznaka}
-          onChange={handleInputChange}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Lokacija</Label>
-        <Input
-          type="text"
-          name="Lokacija"
-          value={activity.lokacija}
-          onChange={handleInputChange}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Namen</Label>
-        <Input
-          type="text"
-          name="Namen"
-          value={activity.namen}
-          onChange={handleInputChange}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Prostost</Label>
-        <Input
-          type="text"
-          name="Prost"
-          value={activity.prost}
+          name="name"
+          value={activity.name}
           onChange={handleInputChange}
         />
       </FormGroup>

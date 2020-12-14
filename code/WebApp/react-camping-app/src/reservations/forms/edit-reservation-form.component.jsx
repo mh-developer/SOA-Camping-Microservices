@@ -24,38 +24,62 @@ const EditForm = (props) => {
       }}
     >
       <FormGroup>
-        <Label>Oznaka</Label>
+        <Label>Naslov</Label>
         <Input
           type="text"
-          name="oznaka"
-          value={reservation.oznaka}
+          name="title"
+          value={reservation.title}
+          placeholder="Naslov"
           onChange={handleInputChange}
         />
       </FormGroup>
       <FormGroup>
-        <Label>Lokacija</Label>
+        <Label>Opis</Label>
         <Input
           type="text"
-          name="Lokacija"
-          value={reservation.lokacija}
+          name="description"
+          placeholder="Opis"
+          value={reservation.description}
           onChange={handleInputChange}
         />
       </FormGroup>
       <FormGroup>
-        <Label>Namen</Label>
+        <Label>Od:</Label>
         <Input
           type="text"
-          name="Namen"
-          value={reservation.namen}
+          name="from_date"
+          placeholder="Od:"
+          value={reservation.from_date}
           onChange={handleInputChange}
         />
       </FormGroup>
       <FormGroup>
-        <Label>Prostost</Label>
+        <Label>Do:</Label>
         <Input
           type="text"
-          name="Prost"
-          value={reservation.prost}
+          name="to_date"
+          placeholder="Do:"
+          value={reservation.to_date}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Nacin Kampiranja</Label>
+        <Input
+          type="text"
+          name="type_of_camping"
+          placeholder="Nacin Kampiranja"
+          value={reservation.type_of_camping}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Status</Label>
+        <Input
+          type="text"
+          name="status"
+          placeholder="Status"
+          value={reservation.status}
           onChange={handleInputChange}
         />
       </FormGroup>

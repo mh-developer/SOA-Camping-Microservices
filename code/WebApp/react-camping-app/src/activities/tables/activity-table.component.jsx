@@ -6,9 +6,7 @@ const ActivityTable = (props) => (
   <Table hover striped={true}>
     <thead>
       <tr>
-        <th>Oznaka</th>
-        <th>Lokacija</th>
-        <th>Namen</th>
+        <th>Ime</th>
         <th>Edit</th>
         <th>Delete</th>
       </tr>
@@ -16,10 +14,8 @@ const ActivityTable = (props) => (
     <tbody>
       {props.activitys.length > 0 ? (
         props.activitys.map((activitys) => (
-          <tr key={activitys._id}>
-            <td>{activitys.oznaka}</td>
-            <td>{activitys.lokacija}</td>
-            <td>{activitys.namen}</td>
+          <tr key={activitys.id}>
+            <td>{activitys.name}</td>
             <td>
               <Button
                 color="warning"

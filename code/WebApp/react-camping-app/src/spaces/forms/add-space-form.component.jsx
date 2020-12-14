@@ -16,7 +16,7 @@ const AddSpaceForm = (props) => {
       onSubmit={(event) => {
         event.preventDefault();
         if (!space.oznaka) return;
-
+        console.log("Submit called");
         props.addSpace(space);
         setSpace(spaceModel);
       }}

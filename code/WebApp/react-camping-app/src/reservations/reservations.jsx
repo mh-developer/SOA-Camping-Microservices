@@ -32,10 +32,12 @@ const Reservations = () => {
   // CRUD operations
   const addReservation = (reservation) => {
     const createReservation = {
-      oznaka: reservation.oznaka,
-      lokacija: reservation.lokacija,
-      namen: reservation.namen,
-      prost: reservation.prost,
+      title: reservation.title,
+      description: reservation.description,
+      from_date: reservation.from_date,
+      to_date: reservation.to_date,
+      type_of_camping: reservation.type_of_camping,
+      status: reservation.status,
     };
 
     ReservationService.create(createReservation)
@@ -54,7 +56,7 @@ const Reservations = () => {
     ReservationService.remove(id)
       .then((response) => {
         setReservations(
-          reservations.filter((reservation) => reservation._id !== id)
+          reservations.filter((reservation) => reservation._id.$oid !== id)
         );
       })
       .catch((e) => {
@@ -64,12 +66,13 @@ const Reservations = () => {
 
   const updateReservation = (id, updatedReservation) => {
     setEditing(false);
-
+    console.log(id);
+    console.log(updateReservation);
     ReservationService.update(id, updatedReservation)
       .then((response) => {
         setReservations(
           reservations.map((reservation) =>
-            reservation._id === id ? updatedReservation : reservation
+            reservation._id.$oid === id ? updatedReservation : reservation
           )
         );
       })
