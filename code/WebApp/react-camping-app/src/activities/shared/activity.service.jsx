@@ -1,13 +1,13 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: "http://studentdocker.informatika.uni-mb.si:32964", //"http://studentdocker.informatika.uni-mb.si:32964",//process.env.REACT_APP_SPACES_API_URL,
+  baseURL: "http://studentdocker.informatika.uni-mb.si:27333/", //"http://studentdocker.informatika.uni-mb.si:32964",//process.env.REACT_APP_SPACES_API_URL,
   headers: {
     "Content-type": "application/json",
   },
 });
 
-const url = "/Spaces";
+const url = "/activities";
 const getAll = () => {
   return http.get(url);
 };
@@ -28,7 +28,7 @@ const remove = (id) => {
   return http.delete(`${url}/${id}`);
 };
 
-export const SpaceService = {
+export const ActivityService = {
   getAll,
   get,
   create,
