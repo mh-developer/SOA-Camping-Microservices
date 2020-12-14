@@ -12,7 +12,7 @@ import org.bson.types.ObjectId
 
 class MongoDataService(database: String) {
     private val uri = MongoClientURI(
-        "SET_MONGODB_CONNECTION_STRING"
+        "mongodb+srv://soa-user:soavaje2020@cluster0.cymie.mongodb.net/ActivitiesDb?retryWrites=true&w=majority"
     )
     private val mongoClient: MongoClient = MongoClient(uri)
     private val database = mongoClient.getDatabase(database)

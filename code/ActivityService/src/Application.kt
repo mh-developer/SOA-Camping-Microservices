@@ -8,6 +8,7 @@ import de.nielsfalk.ktor.swagger.version.v3.OpenApi
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.gson.*
+import io.ktor.http.*
 import io.ktor.locations.*
 import io.ktor.routing.*
 import si.um.feri.activityservice.routes.activitiesAll
@@ -22,6 +23,12 @@ fun Application.module(testing: Boolean = false) {
         gson {
             setPrettyPrinting()
         }
+    }
+    install(CORS)
+    {
+        method(HttpMethod.Options)
+        header(HttpHeaders.XForwardedProto)
+        anyHost()
     }
     install(Locations) {
     }
