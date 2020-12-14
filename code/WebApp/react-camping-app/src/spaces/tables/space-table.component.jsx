@@ -3,7 +3,7 @@ import { Table, Button } from "reactstrap";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 const SpaceTable = (props) => (
-  <Table hover striped="true">
+  <Table hover striped={true}>
     <thead>
       <tr>
         <th>Oznaka</th>

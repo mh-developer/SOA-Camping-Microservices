@@ -25,6 +25,7 @@ const AddCampForm = (props) => {
         <Label>Name</Label>
         <Input
           type="text"
+          placeholder="Name"
           name="Name"
           value={camp.Name}
           onChange={handleInputChange}
@@ -34,6 +35,7 @@ const AddCampForm = (props) => {
         <Label>Description</Label>
         <Input
           type="text"
+          placeholder="Description"
           name="Description"
           value={camp.Description}
           onChange={handleInputChange}
@@ -43,6 +45,7 @@ const AddCampForm = (props) => {
         <Label>Title</Label>
         <Input
           type="text"
+          placeholder="Title"
           name="Title"
           value={camp.Title}
           onChange={handleInputChange}
@@ -53,6 +56,7 @@ const AddCampForm = (props) => {
         <Input
           type="text"
           name="PhoneNumber"
+          placeholder="Phone Number"
           value={camp.PhoneNumber}
           onChange={handleInputChange}
         />
@@ -61,6 +65,7 @@ const AddCampForm = (props) => {
         <Label>Location X</Label>
         <Input
           type="text"
+          placeholder="LocationX"
           name="LocationX"
           value={camp.LocationX}
           onChange={handleInputChange}
@@ -70,6 +75,7 @@ const AddCampForm = (props) => {
         <Label>Location Y</Label>
         <Input
           type="text"
+          placeholder="LocationY"
           name="LocationY"
           value={camp.LocationY}
           onChange={handleInputChange}

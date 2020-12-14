@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const EditSpaceForm = (props) => {
   const [space, setSpace] = useState(props.currentSpace);
@@ -15,49 +16,56 @@ const EditSpaceForm = (props) => {
   };
 
   return (
-    <form
+    <Form
       onSubmit={(event) => {
         event.preventDefault();
 
         props.updateSpace(space._id, space);
       }}
     >
-      <label>Oznaka</label>
-      <input
-        type="text"
-        name="oznaka"
-        value={space.oznaka}
-        onChange={handleInputChange}
-      />
-      <label>Lokacija</label>
-      <input
-        type="text"
-        name="Lokacija"
-        value={space.lokacija}
-        onChange={handleInputChange}
-      />
-      <label>Namen</label>
-      <input
-        type="text"
-        name="Namen"
-        value={space.namen}
-        onChange={handleInputChange}
-      />
-      <label>Prostost</label>
-      <input
-        type="text"
-        name="Prost"
-        value={space.prost}
-        onChange={handleInputChange}
-      />
-      <button>Update Space</button>
-      <button
-        onClick={() => props.setEditing(false)}
-        className="button muted-button"
-      >
-        Cancel
-      </button>
-    </form>
+      <FormGroup>
+        <Label>Oznaka</Label>
+        <Input
+          type="text"
+          name="oznaka"
+          value={space.oznaka}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Lokacija</Label>
+        <Input
+          type="text"
+          name="Lokacija"
+          value={space.lokacija}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Namen</Label>
+        <Input
+          type="text"
+          name="Namen"
+          value={space.namen}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Prostost</Label>
+        <Input
+          type="text"
+          name="Prost"
+          value={space.prost}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <div className="d-flex justify-content-between">
+        <Button className="btn-warning">Update Space</Button>
+        <Button onClick={() => props.setEditing(false)} className="btn-primary">
+          Cancel
+        </Button>
+      </div>
+    </Form>
   );
 };
 

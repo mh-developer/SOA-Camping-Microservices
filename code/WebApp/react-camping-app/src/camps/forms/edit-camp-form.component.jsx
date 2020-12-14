@@ -77,15 +77,17 @@ const EditCampForm = (props) => {
           onChange={handleInputChange}
         />
       </FormGroup>
-      <Button color="primary">Update camp</Button>
-      <Button
-        color="white"
-        outline
-        onClick={() => props.setEditing(false)}
-        className="button muted-button"
-      >
-        Cancel
-      </Button>
+      <div className="d-flex justify-content-between">
+        <Button className="btn-warning">Update camp</Button>
+        <Button
+          color="white"
+          outline
+          onClick={() => props.setEditing(false)}
+          className="btn-primary"
+        >
+          Cancel
+        </Button>
+      </div>
     </Form>
   );
 };

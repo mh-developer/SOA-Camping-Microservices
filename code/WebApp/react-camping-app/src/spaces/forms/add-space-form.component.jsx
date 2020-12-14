@@ -27,7 +27,7 @@ const AddSpaceForm = (props) => {
           type="text"
           name="oznaka"
           value={space.oznaka}
-          placeholder="A1"
+          placeholder="Oznaka"
           onChange={handleInputChange}
         />
       </FormGroup>
@@ -36,7 +36,7 @@ const AddSpaceForm = (props) => {
         <Input
           type="text"
           name="lokacija"
-          placeholder="Ob reki"
+          placeholder="Lokacija"
           value={space.lokacija}
           onChange={handleInputChange}
         />
@@ -46,7 +46,7 @@ const AddSpaceForm = (props) => {
         <Input
           type="text"
           name="namen"
-          placeholder="Avtodom"
+          placeholder="Namen"
           value={space.namen}
           onChange={handleInputChange}
         />

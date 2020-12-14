@@ -1,13 +1,15 @@
 import React from "react";
 import { Table, Button } from "reactstrap";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 const CampTable = (props) => (
-  <Table>
+  <Table hover striped={true}>
     <thead>
       <tr>
         <th>Name</th>
         <th>Description</th>
-        <th>Actions</th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -18,22 +20,24 @@ const CampTable = (props) => (
             <td>{camp.Description}</td>
             <td>
               <Button
-                color="white"
+                color="warning"
                 size="sm"
                 onClick={() => {
                   props.editRow(camp);
                 }}
                 className="button muted-button"
               >
-                Edit
+                <FiEdit />
               </Button>
+            </td>
+            <td>
               <Button
-                color="white"
+                color="danger"
                 size="sm"
                 onClick={() => props.deleteCamp(camp.Id)}
                 className="button muted-button"
               >
-                Delete
+                <FiTrash2 />
               </Button>
             </td>
           </tr>

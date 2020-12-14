@@ -74,6 +74,12 @@ code {
   background-color: #d8c784 !important;
 }
 
+.btn-danger:hover,
+.btn-primary:hover,
+.btn-warning:hover {
+  filter: brightness(110%);
+}
+
 .page-title {
   padding: 1rem 0 2rem 0;
   margin: 0 !important;

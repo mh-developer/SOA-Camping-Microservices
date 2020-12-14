@@ -87,10 +87,10 @@ const Camps = () => {
   };
 
   return (
-    <div className="container">
-      <h1>Camps</h1>
+    <div className="container content">
+      <h1 className="text-center page-title">Camps</h1>
       <Row className="d-flex justify-content-between">
-        <Col md={6}>
+        <Col md={4}>
           {editing ? (
             <Fragment>
               <h2>Edit camp</h2>
@@ -109,8 +109,7 @@ const Camps = () => {
           )}
         </Col>
 
-        <Col md={6}>
-          <h2>View camps</h2>
+        <Col md={8} className="tableCol">
           <CampTable camps={camps} editRow={editRow} deleteCamp={deleteCamp} />
         </Col>
       </Row>
