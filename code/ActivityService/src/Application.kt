@@ -26,9 +26,20 @@ fun Application.module(testing: Boolean = false) {
     }
     install(CORS)
     {
+        method(HttpMethod.Get)
+        method(HttpMethod.Post)
+        method(HttpMethod.Put)
+        method(HttpMethod.Patch)
+        method(HttpMethod.Delete)
+        method(HttpMethod.Head)
         method(HttpMethod.Options)
+        header(HttpHeaders.Accept)
+        header(HttpHeaders.AcceptLanguage)
+        header(HttpHeaders.ContentLanguage)
         header(HttpHeaders.XForwardedProto)
         anyHost()
+        allowCredentials = true
+        allowNonSimpleContentTypes = true
     }
     install(Locations) {
     }
