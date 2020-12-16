@@ -1,5 +1,5 @@
 # App Building phase --------
-FROM openjdk:8 AS build
+FROM openjdk:8-jdk-alpine AS build
 
 RUN mkdir /appbuild
 COPY . /appbuild
@@ -27,4 +27,4 @@ COPY --from=build /appbuild/resources/ /app/resources/
 WORKDIR /app
 EXPOSE 8080
 
-CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:InitialRAMFraction=2", "-XX:MinRAMFraction=2", "-XX:MaxRAMFraction=2", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "activityservice.jar"]
+CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:InitialRAMFraction=1", "-XX:MinRAMFraction=1", "-XX:MaxRAMFraction=1", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "activityservice.jar"]
