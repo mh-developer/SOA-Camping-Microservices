@@ -7,6 +7,7 @@ import os
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, ValidationError, InvalidQueryError
 from resources.errors import SchemaValidationError, DataAlreadyExistsError, InternalServerError, UpdatingDataError, \
     DeletingDataError, DataNotExistsError
+from resources.jwt_decorator import requires_auth
 
 
 class ReservationModel(Schema):
@@ -47,6 +48,7 @@ class ReservationsApi(Resource):
     @swagger.response(response_code=200, description="List of reservations")
     @swagger.response(response_code=400, description="Error getting reservation")
     @swagger.response(response_code=500, description="Error getting reservation")
+    @requires_auth
     def get(self):
         reservations = Reservation.objects().to_json()
         return Response(reservations, mimetype="application/json", status=200)
@@ -55,7 +57,8 @@ class ReservationsApi(Resource):
     @swagger.expected(schema=ReservationModel, required=True)
     @swagger.reorder_with(schema=ReservationModel, description="Create new reservation", response_code=201)
     @swagger.response(response_code=400, description="Error creating reservation")
-    @swagger.response(response_code=500, description="Error creatingupdating reservation")
+    @swagger.response(response_code=500, description="Error creating reservation")
+    @requires_auth
     def post(self):
         try:
             body = request.get_json()
@@ -75,6 +78,7 @@ class ReservationApi(Resource):
     @swagger.response(response_code=404, description="Error getting reservation")
     @swagger.response(response_code=400, description="Error getting reservation")
     @swagger.response(response_code=500, description="Error getting reservation")
+    @requires_auth
     def get(self, reservation_id):
         try:
             reservation = Reservation.objects.get(id=reservation_id).to_json()
@@ -90,6 +94,7 @@ class ReservationApi(Resource):
     @swagger.response(response_code=404, description="Error updating reservation")
     @swagger.response(response_code=400, description="Error updating reservation")
     @swagger.response(response_code=500, description="Error updating reservation")
+    @requires_auth
     def put(self, reservation_id):
         try:
             body = request.get_json()
@@ -107,6 +112,7 @@ class ReservationApi(Resource):
     @swagger.response(response_code=404, description="Error deleting reservation")
     @swagger.response(response_code=400, description="Error deleting reservation")
     @swagger.response(response_code=500, description="Error deleting reservation")
+    @requires_auth
     def delete(self, reservation_id):
         try:
             reservation = Reservation.objects.get(id=reservation_id).delete()
@@ -123,6 +129,7 @@ class ReservationByCampApi(Resource):
     @swagger.response(response_code=404, description="Error getting reservation")
     @swagger.response(response_code=400, description="Error getting reservation")
     @swagger.response(response_code=500, description="Error getting reservation")
+    @requires_auth
     def get(self, camp_id):
         try:
             camp = requests.get(url=f"{os.environ['CAMP_API_URL']}/api/Camps/{camp_id}", verify=False)

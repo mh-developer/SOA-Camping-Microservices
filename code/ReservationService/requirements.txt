@@ -5,3 +5,5 @@ flask_restful_swagger_3
 flask_swagger_ui
 requests
 flask-cors
+python-jose
+six

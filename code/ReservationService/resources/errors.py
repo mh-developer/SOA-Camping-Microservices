@@ -60,7 +60,7 @@ errors = {
         "status": 400
     },
     "UnauthorizedError": {
-        "message": "Invalid username or password",
+        "message": "Invalid user credentials",
         "status": 401
     }
 }

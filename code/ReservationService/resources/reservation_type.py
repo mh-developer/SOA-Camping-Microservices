@@ -5,6 +5,7 @@ from database.models.reservation_type import ReservationType
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, ValidationError, InvalidQueryError
 from resources.errors import SchemaValidationError, DataAlreadyExistsError, InternalServerError, UpdatingDataError, \
     DeletingDataError, DataNotExistsError
+from resources.jwt_decorator import requires_auth
 
 
 class ReservationTypeModel(Schema):
@@ -39,6 +40,7 @@ class ReservationTypesApi(Resource):
     @swagger.reorder_with(schema=ReservationTypeModel, description="Create new reservation type", response_code=201)
     @swagger.response(response_code=400, description="Error creating reservation types")
     @swagger.response(response_code=500, description="Error creating reservation types")
+    @requires_auth
     def post(self):
         try:
             body = request.get_json()
@@ -73,6 +75,7 @@ class ReservationTypeApi(Resource):
     @swagger.response(response_code=404, description="Error updating reservation types")
     @swagger.response(response_code=400, description="Error updating reservation types")
     @swagger.response(response_code=500, description="Error updating reservation types")
+    @requires_auth
     def put(self, reservations_type_id):
         try:
             body = request.get_json()
@@ -90,6 +93,7 @@ class ReservationTypeApi(Resource):
     @swagger.response(response_code=404, description="Error deleting reservation types")
     @swagger.response(response_code=400, description="Error deleting reservation types")
     @swagger.response(response_code=500, description="Error deleting reservation types")
+    @requires_auth
     def delete(self, reservations_type_id):
         try:
             reservations_type = ReservationType.objects.get(id=reservations_type_id).delete()
