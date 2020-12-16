@@ -11,7 +11,6 @@ import Spaces from "./spaces/spaces";
 import Reservations from "./reservations/reservations";
 import Activities from "./activities/activities";
 import Profile from "./views/Profile";
-import ExternalApi from "./views/ExternalApi";
 import { useAuth0 } from "@auth0/auth0-react";
 import history from "./utils/history";
 
@@ -40,12 +39,11 @@ const App = () => {
         <Container className="flex-grow-1 page-container">
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/profile" component={Profile} />
             <Route path="/camps" component={Camps} />
             <Route path="/spaces" component={Spaces} />
             <Route path="/reservations" component={Reservations} />
             <Route path="/activities" component={Activities} />
-            <Route path="/external-api" component={ExternalApi} />
+            <Route path="/profile" component={Profile} />
           </Switch>
         </Container>
         <Footer />

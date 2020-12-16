@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: "http://localhost:5000", // "http://studentdocker.informatika.uni-mb.si:32964",//process.env.REACT_APP_SPACES_API_URL,
+  baseURL: process.env.REACT_APP_SPACES_API_URL,
   headers: {
     "Content-type": "application/json",
   },

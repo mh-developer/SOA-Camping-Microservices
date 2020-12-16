@@ -15,8 +15,8 @@ const ReservationTable = (props) => (
     </thead>
     <tbody>
       {props.reservations.length > 0 ? (
-        props.reservations.map((reservations) => (
-          <tr>
+        props.reservations.map((reservations, i) => (
+          <tr key={i}>
             {console.log(reservations)}
             <td>{reservations.title}</td>
             <td>{reservations.from_date}</td>

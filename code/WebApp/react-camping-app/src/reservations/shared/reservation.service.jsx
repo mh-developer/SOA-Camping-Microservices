@@ -1,37 +1,43 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: "http://studentdocker.informatika.uni-mb.si:27777/api", //"http://studentdocker.informatika.uni-mb.si:32964",//process.env.REACT_APP_SPACES_API_URL,
-  headers: {
-    "Content-type": "application/json",
-  },
+    baseURL: `${process.env.REACT_APP_RESERVATIONS_API_URL}/api`,
+    headers: {
+        "Content-type": "application/json",
+    },
+});
+
+const getHead = (token) => ({
+    headers: {
+        Authorization: "Bearer " + token,
+    },
 });
 
 const url = "/reservations";
-const getAll = () => {
-  return http.get(url);
+const getAll = (accessToken) => {
+    return http.get(url, getHead(accessToken));
 };
 
-const get = (id) => {
-  return http.get(`${url}/${id}`);
+const get = (id, accessToken) => {
+    return http.get(`${url}/${id}`, getHead(accessToken));
 };
 
-const create = (data) => {
-  return http.post(url, data);
+const create = (data, accessToken) => {
+    return http.post(url, data, getHead(accessToken));
 };
 
-const update = (id, data) => {
-  return http.put(`${url}/${id}`, data);
+const update = (id, data, accessToken) => {
+    return http.put(`${url}/${id}`, data, getHead(accessToken));
 };
 
-const remove = (id) => {
-  return http.delete(`${url}/${id}`);
+const remove = (id, accessToken) => {
+    return http.delete(`${url}/${id}`, getHead(accessToken));
 };
 
 export const ReservationService = {
-  getAll,
-  get,
-  create,
-  update,
-  remove,
+    getAll,
+    get,
+    create,
+    update,
+    remove,
 };
