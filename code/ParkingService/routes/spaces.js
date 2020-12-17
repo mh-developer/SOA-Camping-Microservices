@@ -3,20 +3,6 @@ const express = require("express"),
     ObjectId = require("mongodb").ObjectID;
 
 const getClient = require("../db");
-const jwt = require("express-jwt");
-const jwksRsa = require("jwks-rsa");
-
-const checkJwt = jwt({
-    secret: jwksRsa.expressJwtSecret({
-        cache: true,
-        rateLimit: true,
-        jwksRequestsPerMinute: 5,
-        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
-    }),
-    audience: process.env.AUTH0_AUDIENCE,
-    issuer: `https://${process.env.AUTH0_DOMAIN}/`,
-    algorithms: ["RS256"],
-});
 
 router.get("/", async (req, res) => {
     try {
@@ -35,7 +21,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/available", checkJwt, async (req, res) => {
+router.get("/available", async (req, res) => {
     console.log(`Request to: ${req.path}`);
     try {
         const client = await getClient();
@@ -51,7 +37,7 @@ router.get("/available", checkJwt, async (req, res) => {
     }
 });
 
-router.get("/places", checkJwt, async (req, res) => {
+router.get("/places", async (req, res) => {
     try {
         const client = await getClient();
         const db = client.db("parking_servce_db");
@@ -81,7 +67,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.post("/", checkJwt, async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         const client = await getClient();
         const db = client.db("parking_servce_db");
@@ -95,7 +81,7 @@ router.post("/", checkJwt, async (req, res) => {
     }
 });
 
-router.post("/:id", checkJwt, async (req, res) => {
+router.post("/:id", async (req, res) => {
     req.body._id = new ObjectId(req.params.id);
     try {
         const client = await getClient();
@@ -110,7 +96,7 @@ router.post("/:id", checkJwt, async (req, res) => {
     }
 });
 
-router.put("/:id", checkJwt, async (req, res) => {
+router.put("/:id", async (req, res) => {
     const newValues = req.body;
     delete newValues._id;
     try {
@@ -132,7 +118,7 @@ router.put("/:id", checkJwt, async (req, res) => {
     res.status(200).json(req.params.id);
 });
 
-router.delete("/:id", checkJwt, async (req, res) => {
+router.delete("/:id", async (req, res) => {
     const newValues = req.body;
     delete newValues._id;
     try {
