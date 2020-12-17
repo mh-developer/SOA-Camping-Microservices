@@ -1,7 +1,7 @@
 // db.js
 const MongoClient = require("mongodb").MongoClient;
 
-const url = "mongodb://mondmin:2fX1mk8K7gZBGZYq@164.8.221.27:27017/";
+const url = "mongodb+srv://soa-user:soavaje2020@cluster0.cymie.mongodb.net/parking_servce_db?retryWrites=true&w=majority";
 
 var client;
 
