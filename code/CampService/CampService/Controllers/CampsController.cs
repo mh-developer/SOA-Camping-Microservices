@@ -42,6 +42,7 @@ namespace Camps.API.Controllers
         {
             try
             {
+                _logger.LogInformation("Start getting all camps.");
                 var result = await _campsService.GetCamps();
                 if (result == null)
                 {
@@ -80,6 +81,7 @@ namespace Camps.API.Controllers
         {
             try
             {
+                _logger.LogInformation($"Start getting camp with ID {id}.");
                 var result = await _campsService.GetCamp(id);
                 if (result == null)
                 {
@@ -116,6 +118,7 @@ namespace Camps.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetCampCategories(string id)
         {
+            _logger.LogInformation($"Start getting camp categories for camp ID {id}.");
             try
             {
                 var result = await _campsService.GetCampCategories(id);
@@ -172,6 +175,7 @@ namespace Camps.API.Controllers
         {
             try
             {
+                _logger.LogInformation("Start creating camp.");
                 var result = await _campsService.CreateCamp(camp);
                 if (result == null)
                 {
@@ -229,6 +233,7 @@ namespace Camps.API.Controllers
         {
             try
             {
+                _logger.LogInformation($"Start updating camp with ID {id}.");
                 if (campIn.Id != id)
                 {
                     _logger.LogError($"Error updating camp. Argument ID exception. {id} != {campIn.Id}");
@@ -275,6 +280,7 @@ namespace Camps.API.Controllers
         {
             try
             {
+                _logger.LogInformation($"Start deleting camp with ID {id}.");
                 var camp = await _campsService.GetCamp(id);
 
                 if (camp == null)

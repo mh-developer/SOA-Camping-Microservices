@@ -42,6 +42,7 @@ namespace Camps.API.Controllers
         {
             try
             {
+                _logger.LogInformation("Start getting categories.");
                 var result = await _categoriesService.GetCategories();
                 if (result == null)
                 {
@@ -80,6 +81,7 @@ namespace Camps.API.Controllers
         {
             try
             {
+                _logger.LogInformation($"Start getting category with ID {id}.");
                 var result = await _categoriesService.GetCategory(id);
                 if (result == null)
                 {
@@ -121,6 +123,7 @@ namespace Camps.API.Controllers
         {
             try
             {
+                _logger.LogInformation("Start creating category.");
                 var result = await _categoriesService.CreateCategory(category);
                 if (result == null)
                 {
@@ -165,6 +168,7 @@ namespace Camps.API.Controllers
         {
             try
             {
+                _logger.LogInformation($"Start updating category with ID {id}.");
                 if (categoryIn.Id != id)
                 {
                     _logger.LogError($"Error updating category. Argument ID exception. {id} != {categoryIn.Id}");
@@ -211,6 +215,7 @@ namespace Camps.API.Controllers
         {
             try
             {
+                _logger.LogInformation($"Start deleting category with ID {id}.");
                 var category = await _categoriesService.GetCategory(id);
 
                 if (category == null)

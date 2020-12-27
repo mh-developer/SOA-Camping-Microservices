@@ -8,6 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Formatting.Display;
+using Serilog.Sinks.RabbitMQ;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,6 +44,26 @@ namespace Camps.API
 
             services.AddControllers()
                 .AddNewtonsoftJson(options => options.UseMemberCasing());
+
+            // RabbitMQ logging
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.RabbitMQ((clientConfiguration, sinkConfiguration) =>
+                {
+                    clientConfiguration.Username = Configuration["RabbitMQ:RABBITMQ_USER"];
+                    clientConfiguration.Password = Configuration["RabbitMQ:RABBITMQ_PASSWORD"];
+                    clientConfiguration.Exchange = Configuration["RabbitMQ:RABBITMQ_EXCHANGE"];
+                    clientConfiguration.ExchangeType = Configuration["RabbitMQ:RABBITMQ_EXCHANGE_TYPE"];
+                    clientConfiguration.Heartbeat = 60;
+                    clientConfiguration.DeliveryMode = RabbitMQDeliveryMode.Durable;
+                    clientConfiguration.RouteKey = Configuration["RabbitMQ:RABBITMQ_QUEUE"];
+                    clientConfiguration.Port = 5672;
+
+                    clientConfiguration.Hostnames.Add(Configuration["RabbitMQ:RABBITMQ_HOSTNAMES"]);
+
+                    sinkConfiguration.TextFormatter = new MessageTemplateTextFormatter(
+                        "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} {Level:u4} {RequestPath} Correlation: {TraceId} [{SourceContext}] - {Message:lj}{NewLine}{Exception}");
+                }).CreateLogger();
 
             // Add authentication services
             services.AddAuthentication(options =>
