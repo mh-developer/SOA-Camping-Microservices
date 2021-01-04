@@ -1,6 +1,7 @@
 from flask import Response, request
 from flask_restful_swagger_3 import Resource, swagger, Schema
 from database.models.reservation import Reservation
+from .logger_provider import logger
 import requests
 import os
 
@@ -46,12 +47,17 @@ class ReservationModel(Schema):
 class ReservationsApi(Resource):
     @swagger.tags(['Reservations'])
     @swagger.response(response_code=200, description="List of reservations")
-    @swagger.response(response_code=400, description="Error getting reservation")
-    @swagger.response(response_code=500, description="Error getting reservation")
+    @swagger.response(response_code=400, description="Error getting reservations")
+    @swagger.response(response_code=500, description="Error getting reservations")
     @requires_auth
     def get(self):
-        reservations = Reservation.objects().to_json()
-        return Response(reservations, mimetype="application/json", status=200)
+        try:
+            logger.info("Start getting reservations.")
+            reservations = Reservation.objects().to_json()
+            return Response(reservations, mimetype="application/json", status=200)
+        except Exception as e:
+            logger.error(f"Error getting reservations. {e}")
+            raise InternalServerError
 
     @swagger.tags(['Reservations'])
     @swagger.expected(schema=ReservationModel, required=True)
@@ -61,14 +67,18 @@ class ReservationsApi(Resource):
     @requires_auth
     def post(self):
         try:
+            logger.info("Start creating reservation.")
             body = request.get_json()
             reservation = Reservation(**body).save()
             return Response(reservation.to_json(), mimetype="application/json", status=201)
         except (FieldDoesNotExist, ValidationError):
+            logger.error(f"Error creating reservation.")
             raise SchemaValidationError
         except NotUniqueError:
+            logger.error(f"Error creating reservation.")
             raise DataAlreadyExistsError
         except Exception as e:
+            logger.error(f"Error creating reservation. {e}")
             raise InternalServerError
 
 
@@ -81,11 +91,14 @@ class ReservationApi(Resource):
     @requires_auth
     def get(self, reservation_id):
         try:
+            logger.info(f"Start getting reservation with ID {reservation_id}.")
             reservation = Reservation.objects.get(id=reservation_id).to_json()
             return Response(reservation, mimetype="application/json", status=200)
         except DoesNotExist:
+            logger.error(f"Error getting reservation with ID {reservation_id}.")
             raise DataNotExistsError
-        except Exception:
+        except Exception as e:
+            logger.error(f"Error getting reservation with ID {reservation_id}. {e}")
             raise InternalServerError
 
     @swagger.tags(['Reservations'])
@@ -97,14 +110,18 @@ class ReservationApi(Resource):
     @requires_auth
     def put(self, reservation_id):
         try:
+            logger.info(f"Start updating reservation with ID {reservation_id}.")
             body = request.get_json()
             Reservation.objects.get(id=reservation_id).update(**body)
             return '', 204
         except InvalidQueryError:
+            logger.error(f"Error updating reservation with ID {reservation_id}.")
             raise SchemaValidationError
         except DoesNotExist:
+            logger.error(f"Error updating reservation with ID {reservation_id}.")
             raise UpdatingDataError
-        except Exception:
+        except Exception as e:
+            logger.error(f"Error updating reservation with ID {reservation_id}. {e}")
             raise InternalServerError
 
     @swagger.tags(['Reservations'])
@@ -115,11 +132,14 @@ class ReservationApi(Resource):
     @requires_auth
     def delete(self, reservation_id):
         try:
+            logger.info(f"Start deleting reservation with ID {reservation_id}.")
             reservation = Reservation.objects.get(id=reservation_id).delete()
             return '', 204
         except DoesNotExist:
+            logger.error(f"Error deleting reservation with ID {reservation_id}.")
             raise DeletingDataError
-        except Exception:
+        except Exception as e:
+            logger.error(f"Error deleting reservation with ID {reservation_id}. {e}")
             raise InternalServerError
 
 
@@ -132,6 +152,7 @@ class ReservationByCampApi(Resource):
     @requires_auth
     def get(self, camp_id):
         try:
+            logger.info(f"Start getting reservations for camp with ID {camp_id}.")
             camp = requests.get(url=f"{os.environ['CAMP_API_URL']}/api/Camps/{camp_id}", verify=False)
             if camp.status_code != 200:
                 raise DoesNotExist
@@ -139,6 +160,8 @@ class ReservationByCampApi(Resource):
             reservations = Reservation.objects(__raw__={"camp": {"$elemMatch": {"Id": str(camp_id)}}}).to_json()
             return Response(reservations, mimetype="application/json", status=200)
         except DoesNotExist:
+            logger.error(f"Error getting reservations for camp with ID {camp_id}.")
             raise DataNotExistsError
-        except Exception:
+        except Exception as e:
+            logger.error(f"Error getting reservations for camp with ID {camp_id}. {e}")
             raise InternalServerError

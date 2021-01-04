@@ -1,6 +1,7 @@
 from flask import Response, request
 from flask_restful_swagger_3 import Resource, swagger, Schema
 from database.models.reservation_type import ReservationType
+from .logger_provider import logger
 
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, ValidationError, InvalidQueryError
 from resources.errors import SchemaValidationError, DataAlreadyExistsError, InternalServerError, UpdatingDataError, \
@@ -32,8 +33,13 @@ class ReservationTypesApi(Resource):
     @swagger.response(response_code=400, description="Error getting reservation types")
     @swagger.response(response_code=500, description="Error getting reservation types")
     def get(self):
-        reservations_types = ReservationType.objects().to_json()
-        return Response(reservations_types, mimetype="application/json", status=200)
+        try:
+            logger.info("Start getting reservation types.")
+            reservations_types = ReservationType.objects().to_json()
+            return Response(reservations_types, mimetype="application/json", status=200)
+        except Exception as e:
+            logger.error(f"Error getting reservation types. {e}")
+            raise InternalServerError
 
     @swagger.tags(['ReservationTypes'])
     @swagger.expected(schema=ReservationTypeModel, required=True)
@@ -43,14 +49,18 @@ class ReservationTypesApi(Resource):
     @requires_auth
     def post(self):
         try:
+            logger.info("Start creating reservation types.")
             body = request.get_json()
             reservations_types = ReservationType(**body).save()
             return Response(reservations_types.to_json(), mimetype="application/json", status=201)
         except (FieldDoesNotExist, ValidationError):
+            logger.error(f"Error creating reservation types.")
             raise SchemaValidationError
         except NotUniqueError:
+            logger.error(f"Error creating reservation types.")
             raise DataAlreadyExistsError
         except Exception as e:
+            logger.error(f"Error creating reservation types. {e}")
             raise InternalServerError
 
 
@@ -62,11 +72,14 @@ class ReservationTypeApi(Resource):
     @swagger.response(response_code=500, description="Error getting reservation types")
     def get(self, reservations_type_id):
         try:
+            logger.info(f"Start getting reservation type with ID {reservations_type_id}.")
             reservations_type = ReservationType.objects.get(id=reservations_type_id).to_json()
             return Response(reservations_type, mimetype="application/json", status=200)
         except DoesNotExist:
+            logger.error(f"Error getting reservation type with ID {reservations_type_id}.")
             raise DataNotExistsError
-        except Exception:
+        except Exception as e:
+            logger.error(f"Error getting reservation type with ID {reservations_type_id}. {e}")
             raise InternalServerError
 
     @swagger.tags(['ReservationTypes'])
@@ -78,14 +91,18 @@ class ReservationTypeApi(Resource):
     @requires_auth
     def put(self, reservations_type_id):
         try:
+            logger.info(f"Start updating reservation types with ID {reservations_type_id}.")
             body = request.get_json()
             ReservationType.objects.get(id=reservations_type_id).update(**body)
             return '', 204
         except InvalidQueryError:
+            logger.error(f"Error updating reservation types with ID {reservations_type_id}.")
             raise SchemaValidationError
         except DoesNotExist:
+            logger.error(f"Error updating reservation types with ID {reservations_type_id}.")
             raise UpdatingDataError
-        except Exception:
+        except Exception as e:
+            logger.error(f"Error updating reservation types with ID {reservations_type_id}. {e}")
             raise InternalServerError
 
     @swagger.tags(['ReservationTypes'])
@@ -96,9 +113,12 @@ class ReservationTypeApi(Resource):
     @requires_auth
     def delete(self, reservations_type_id):
         try:
+            logger.info(f"Start deleting reservation types with ID {reservations_type_id}.")
             reservations_type = ReservationType.objects.get(id=reservations_type_id).delete()
             return '', 204
         except DoesNotExist:
+            logger.error(f"Error deleting reservation types with ID {reservations_type_id}.")
             raise DeletingDataError
-        except Exception:
+        except Exception as e:
+            logger.error(f"Error deleting reservation types with ID {reservations_type_id}. {e}")
             raise InternalServerError

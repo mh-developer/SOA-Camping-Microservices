@@ -7,3 +7,4 @@ requests
 flask-cors
 python-jose
 six
+python_logging_rabbitmq
