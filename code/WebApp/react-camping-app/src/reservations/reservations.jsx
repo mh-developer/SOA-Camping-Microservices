@@ -122,13 +122,13 @@ const Reservations = () => {
                             />
                         </Fragment>
                     ) : (
-                        <Fragment>
-                            <h2>Add new reservation</h2>
-                            <AddReservationForm
-                                addReservation={addReservation}
-                            />
-                        </Fragment>
-                    )}
+                            <Fragment>
+                                <h2>Add new reservation</h2>
+                                <AddReservationForm
+                                    addReservation={addReservation}
+                                />
+                            </Fragment>
+                        )}
                 </Col>
 
                 <Col md={8} className="tableCol">

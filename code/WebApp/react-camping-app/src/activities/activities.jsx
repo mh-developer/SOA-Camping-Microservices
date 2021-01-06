@@ -5,6 +5,7 @@ import ActivityTable from "./tables/activity-table.component";
 import { activityModel } from "./shared/activity.model";
 import { ActivityService } from "./shared/activity.service";
 import { Row, Col } from "reactstrap";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Activitys = () => {
   // Setting state
@@ -12,7 +13,13 @@ const Activitys = () => {
   const [currentActivity, setCurrentActivity] = useState(activityModel);
   const [editing, setEditing] = useState(false);
 
-  const loadactivitysData = useCallback(() => {
+  const { getAccessTokenWithPopup } = useAuth0();
+
+  const loadactivitysData = useCallback(async () => {
+    const token = await getAccessTokenWithPopup({
+      audience: process.env.REACT_APP_ACTIVITY_API_URL,
+    })
+
     ActivityService.getAll()
       .then((response) => {
         if (response.data) {
@@ -22,19 +29,23 @@ const Activitys = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [getAccessTokenWithPopup]);
 
   useEffect(() => {
     loadactivitysData();
   }, [loadactivitysData]);
   // CRUD operations
-  const addActivity = (activity) => {
+  const addActivity = async (activity) => {
+
+    const token = await getAccessTokenWithPopup({
+      audience: process.env.REACT_APP_ACTIVITY_API_URL,
+    });
     const createActivity = {
       id: activity.id,
       name: activity.name,
     };
 
-    ActivityService.create(createActivity)
+    ActivityService.create(createActivity, token)
       .then((response) => {
         if (response.data) {
           setActivitys([...activitys, response.data]);
@@ -45,9 +56,14 @@ const Activitys = () => {
       });
   };
 
-  const deleteActivity = (id) => {
+  const deleteActivity = async (id) => {
+
+    const token = await getAccessTokenWithPopup({
+      audience: process.env.REACT_APP_ACTIVITY_API_URL,
+    });
+
     setEditing(false);
-    ActivityService.remove(id)
+    ActivityService.remove(id, token)
       .then((response) => {
         setActivitys(activitys.filter((activity) => activity._id !== id));
       })
@@ -56,10 +72,14 @@ const Activitys = () => {
       });
   };
 
-  const updateActivity = (id, updatedActivity) => {
+  const updateActivity = async (id, updatedActivity) => {
+
+    const token = await getAccessTokenWithPopup({
+      audience: process.env.REACT_APP_ACTIVITY_API_URL,
+    });
     setEditing(false);
 
-    ActivityService.update(id, updatedActivity)
+    ActivityService.update(id, updatedActivity, token)
       .then((response) => {
         setActivitys(
           activitys.map((activity) =>
@@ -94,11 +114,11 @@ const Activitys = () => {
               />
             </Fragment>
           ) : (
-            <Fragment>
-              <h2>Add new activity</h2>
-              <AddActivityForm addActivity={addActivity} />
-            </Fragment>
-          )}
+              <Fragment>
+                <h2>Add new activity</h2>
+                <AddActivityForm addActivity={addActivity} />
+              </Fragment>
+            )}
         </Col>
 
         <Col md={8} className="tableCol">
