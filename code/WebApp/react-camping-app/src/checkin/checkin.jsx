@@ -18,7 +18,7 @@ const Checkin = () => {
 
     const loadCheckinsData = useCallback(async () => {
         const token = await getAccessTokenWithPopup({
-            audience: process.env.REACT_APP_RESERVATIONS_API_URL,
+            audience: process.env.REACT_APP_CHECKIN_API_URL,
         });
 
         CheckinService.getAll(token)
