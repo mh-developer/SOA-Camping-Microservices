@@ -4,11 +4,12 @@ from database.models.reservation import Reservation
 from .logger_provider import logger
 import requests
 import os
+import json
 
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, ValidationError, InvalidQueryError
 from resources.errors import SchemaValidationError, DataAlreadyExistsError, InternalServerError, UpdatingDataError, \
     DeletingDataError, DataNotExistsError
-from resources.jwt_decorator import requires_auth
+from resources.jwt_decorator import requires_auth, get_token_auth_header
 
 
 class ReservationModel(Schema):
@@ -70,6 +71,24 @@ class ReservationsApi(Resource):
             logger.info("Start creating reservation.")
             body = request.get_json()
             reservation = Reservation(**body).save()
+            userinfo = requests.post(url=f"https://soa-oauth.eu.auth0.com/userinfo",
+                                     headers={"Authorization": f"Bearer {get_token_auth_header()}"},
+                                     verify=False)
+            mail_body = {
+                "SendingTo": userinfo.json().get("email"),
+                "Data": {
+                    "Title": reservation.title,
+                    "Description": reservation.description,
+                    "DateFrom": reservation.from_date,
+                    "DateTo": reservation.to_date,
+                    "TypeOfCamping": reservation.type_of_camping,
+                    "Camp": reservation.camp
+                }
+            }
+            send_mail = requests.post(url=f"{os.environ['MAIL_API_URL']}/reservation-mail",
+                                      data=json.dumps(mail_body),
+                                      verify=False)
+            logger.info("Send reservation email response.", send_mail.json())
             return Response(reservation.to_json(), mimetype="application/json", status=201)
         except (FieldDoesNotExist, ValidationError):
             logger.error(f"Error creating reservation.")

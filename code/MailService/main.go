@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/gin-contrib/cors"
 
 	"fmt"
 	"log"
@@ -28,6 +29,8 @@ type MailSettings struct {
 
 func main() {
 	router := gin.Default()
+	router.Use(cors.Default())
+
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{"200": "API works"})
 	})
@@ -35,7 +38,7 @@ func main() {
 	router.POST("/reservation-mail", func(c *gin.Context) {
 		var mailSettings MailSettings
 		c.BindJSON(&mailSettings)
-		
+
 		result := send_mail("Success! 🎉🍑 Your reservation is confirmed!", mailSettings.SendingTo, mailSettings.Data)
 		if (result) {
 			c.JSON(200, gin.H{"success": 200})

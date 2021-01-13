@@ -8,7 +8,7 @@ from jose import jwt
 from resources.errors import UnauthorizedError
 
 AUTH0_DOMAIN = 'soa-oauth.eu.auth0.com'
-API_AUDIENCE = 'http://localhost:27777'
+API_AUDIENCE = 'http://studentdocker.informatika.uni-mb.si:27777'
 ALGORITHMS = ["RS256"]
 
 

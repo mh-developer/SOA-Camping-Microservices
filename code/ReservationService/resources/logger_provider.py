@@ -9,7 +9,7 @@ logger.addHandler(RabbitMQHandler(
     password="student123",
     exchange="SIPIA-4",
     routing_key_format="SIPIA-4-Logging",
-    host="studentdocker.informatika.uni-mb.si",
+    host="172.17.0.94",
     port=5672,
     formatter=formatter,
 ))
