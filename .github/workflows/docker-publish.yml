@@ -31,13 +31,68 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Build and push
-        id: docker_build
+      - name: Build and push CampService
+        id: CampService
         uses: docker/build-push-action@v2
         with:
           context: ./code/CampService/
           file: ./code/CampService/CampService/Dockerfile
           push: true
           tags: |
-            mh7860/campsapi:${{ steps.time.outputs.time }}
-            mh7860/campsapi:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/campsapi:${{ steps.time.outputs.time }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/campsapi:latest
+
+      - name: Build and push ReservationService
+        id: ReservationService
+        uses: docker/build-push-action@v2
+        with:
+          context: ./code/ReservationService/
+          file: ./code/ReservationService/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/reservation-service:${{ steps.time.outputs.time }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/reservation-service:latest
+            
+      - name: Build and push ReactCampingApp
+        id: ReactCampingApp
+        uses: docker/build-push-action@v2
+        with:
+          context: ./code/WebApp/react-camping-app/
+          file: ./code/WebApp/react-camping-app/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/react-camping-app:${{ steps.time.outputs.time }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/react-camping-app:latest
+            
+      - name: Build and push LoggingService
+        id: LoggingService
+        uses: docker/build-push-action@v2
+        with:
+          context: ./code/LoggingService/
+          file: ./code/LoggingService/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/logging-service:${{ steps.time.outputs.time }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/logging-service:latest
+            
+      - name: Build and push ParkingService
+        id: ParkingService
+        uses: docker/build-push-action@v2
+        with:
+          context: ./code/ParkingService/
+          file: ./code/ParkingService/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/parking-service:${{ steps.time.outputs.time }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/parking-service:latest
+            
+      - name: Build and push ActivityService
+        id: ActivityService
+        uses: docker/build-push-action@v2
+        with:
+          context: ./code/ActivityService/
+          file: ./code/ActivityService/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/activity-service:${{ steps.time.outputs.time }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/activity-service:latest
