@@ -19,6 +19,7 @@ We support our microservices with:
 - Auth0 authentication and authorization with OAuth2 protocol
 - Global logging system with Express.js and RabbitMQ
 - Web app using ReactJS
+- Mail service developed in Gin framework (GO lang) with SendGrid
 
 ## Installation and operation
 
