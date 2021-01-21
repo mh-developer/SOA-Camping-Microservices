@@ -1,3 +1,4 @@
+import os
 import logging
 from python_logging_rabbitmq import RabbitMQHandler
 
@@ -9,7 +10,7 @@ logger.addHandler(RabbitMQHandler(
     password="student123",
     exchange="SIPIA-4",
     routing_key_format="SIPIA-4-Logging",
-    host="172.17.0.94",
+    host=os.environ['RABBITMQ_API_URL'],
     port=5672,
     formatter=formatter,
 ))

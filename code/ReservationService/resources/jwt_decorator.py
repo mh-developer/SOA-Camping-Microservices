@@ -1,5 +1,6 @@
 from functools import wraps
 import json
+import os
 from six.moves.urllib.request import urlopen
 
 from flask import request, _request_ctx_stack
@@ -7,8 +8,8 @@ from jose import jwt
 
 from resources.errors import UnauthorizedError
 
-AUTH0_DOMAIN = 'soa-oauth.eu.auth0.com'
-API_AUDIENCE = 'http://studentdocker.informatika.uni-mb.si:27777'
+AUTH0_DOMAIN = os.environ['AUTH0_DOMAIN']
+API_AUDIENCE = os.environ['AUTH0_API_URL']
 ALGORITHMS = ["RS256"]
 
 

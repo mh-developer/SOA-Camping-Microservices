@@ -11,7 +11,7 @@ services:
     restart: always
     build:
       context: ./CampService
-      dockerfile: ./CampService/CampService/Dockerfile
+      dockerfile: ./CampService/Dockerfile
     ports:
       - "27000:80"
       - "27001:443"
@@ -24,11 +24,14 @@ services:
     restart: always
     build:
       context: ./ReservationService
-      dockerfile: ./ReservationService/Dockerfile
+      dockerfile: ./Dockerfile
     ports:
       - "27777:80"
       - "27778:443"
     environment:
+      RABBITMQ_API_URL: "studentdocker.informatika.uni-mb.si"
+      AUTH0_API_URL: "http://localhost:27777"
+      AUTH0_DOMAIN: "soa-oauth.eu.auth0.com"
       CAMP_API_URL: "http://camps-service"
       MAIL_API_URL: "http://mail-service:8080"
     networks:
@@ -40,7 +43,7 @@ services:
     restart: always
     build:
       context: ./ParkingService
-      dockerfile: ./ParkingService/Dockerfile
+      dockerfile: ./Dockerfile
     ports:
       - "32964:5000"
     networks:
@@ -52,7 +55,7 @@ services:
     restart: always
     build:
       context: ./ActivityService
-      dockerfile: ./ActivityService/Dockerfile
+      dockerfile: ./Dockerfile
     ports:
       - "27333:8080"
     networks:
@@ -64,7 +67,7 @@ services:
     restart: always
     build:
       context: ./CheckInServices
-      dockerfile: ./CheckInServices/Dockerfile
+      dockerfile: ./Dockerfile
     ports:
       - "32932:5000"
     networks:
@@ -76,7 +79,7 @@ services:
     restart: always
     build:
       context: ./WebApp/react-camping-app
-      dockerfile: ./WebApp/react-camping-app/Dockerfile
+      dockerfile: ./Dockerfile
     ports:
       - "7860:80"
       - "7861:443"
@@ -95,7 +98,7 @@ services:
     restart: always
     build:
       context: ./MailService
-      dockerfile: ./MailService/Dockerfile
+      dockerfile: ./Dockerfile
     ports:
       - "27555:8080"
     environment:
@@ -110,7 +113,7 @@ services:
     restart: always
     build:
       context: ./LoggingService
-      dockerfile: ./LoggingService/Dockerfile
+      dockerfile: ./Dockerfile
     ports:
       - "27007:3000"
     networks:

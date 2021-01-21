@@ -28,5 +28,5 @@ Make sure you have already installed both Docker Engine and Docker Compose.
 ```
 cd code/
 
-docker-compose up
+docker-compose up --build -d
 ```

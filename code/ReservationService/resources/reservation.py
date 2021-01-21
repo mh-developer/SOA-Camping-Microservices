@@ -71,7 +71,7 @@ class ReservationsApi(Resource):
             logger.info("Start creating reservation.")
             body = request.get_json()
             reservation = Reservation(**body).save()
-            userinfo = requests.post(url=f"https://soa-oauth.eu.auth0.com/userinfo",
+            userinfo = requests.post(url=f"https://{os.environ['AUTH0_DOMAIN']}/userinfo",
                                      headers={"Authorization": f"Bearer {get_token_auth_header()}"},
                                      verify=False)
             mail_body = {
