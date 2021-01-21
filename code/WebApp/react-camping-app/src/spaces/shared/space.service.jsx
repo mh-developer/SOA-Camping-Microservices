@@ -16,6 +16,7 @@ const getHead = (token) => ({
 const url = "/Spaces";
 const getAll = (accessToken) => {
   console.log(getHead(accessToken));
+
   return http.get(url, getHead(accessToken));
 };
 

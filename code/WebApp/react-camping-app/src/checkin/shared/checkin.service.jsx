@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const http = axios.create({
-    baseURL: `${process.env.REACT_APP_CHECKIN_API_URL}/api`,
+    baseURL: process.env.REACT_APP_CHECKIN_API_URL,
     headers: {
         "Content-type": "application/json",
     },
@@ -15,6 +15,8 @@ const getHead = (token) => ({
 
 const url = "/checkin";
 const getAll = (accessToken) => {
+    console.log(getHead(accessToken));
+    console.log(" this is checkin")
     return http.get(url, getHead(accessToken));
 };
 

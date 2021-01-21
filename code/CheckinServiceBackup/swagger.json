@@ -1,0 +1,249 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "SUA Project Parking Spaces REST API documentation.",
+    "description": "My User Project Application API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Checkin",
+      "description": "API checkin in the system and working with it."
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/spaces": {
+      "get": {
+        "tags": [
+          "Checkin"
+        ],
+        "summary": "Get all parking checkins in the system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Checkin"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Checkin"
+        ],
+        "summary": "Create a new Checkin with a random ID.",
+        "description": "Create new checkin in system with the specified ID",
+        "parameters": [
+          {
+            "name": "checkin",
+            "in": "body",
+            "description": "Dodamo novega gosta",
+            "schema": {
+              "$ref": "#/definitions/Checkin"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/GenericStringResponse"
+            }
+          }
+        }
+      }
+    },
+    "/spaces/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID checkina",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Checkin"
+        ],
+        "summary": "Gets the guest with the designated id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Checkin"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Checkin"
+        ],
+        "summary": "Create a new checkin with a specific ID.",
+        "description": "Create new Guest in system with the specified ID",
+        "parameters": [
+          {
+            "name": "checkin",
+            "in": "body",
+            "description": "Dodamo novega gosta",
+            "schema": {
+              "$ref": "#/definitions/SpaceWoID"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/GenericStringResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Checkin"
+        ],
+        "summary": "Updates the checkinspace with the specified ID",
+        "parameters": [
+          {
+            "name": "checkin",
+            "in": "body",
+            "description": "Dodamo novega gosta",
+            "schema": {
+              "$ref": "#/definitions/Checkin"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GenericStringResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Checkin"
+        ],
+        "summary": "Deletes the checkin with the specified ID",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GenericStringResponse"
+            }
+          }
+        }
+      }
+    },
+    "/checkin/available": {
+      "get": {
+        "tags": [
+          "Checkin"
+        ],
+        "summary": "Gets the checkin still available",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Checkin"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Space": {
+      "required": [
+        "_id",
+        "name",
+        "no_people",
+        "date"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "no_people": {
+          "type": "integer"
+        },
+        "date": {
+          "type": "Date"
+        }
+      }
+    },
+    "SpaceWoID": {
+      "required": [
+        "_id",
+        "name",
+        "no_people",
+        "date"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "no_people": {
+          "type": "integer"
+        },
+        "date": {
+          "type": "Date"
+        }
+      }
+    },
+    "Spaces": {
+      "type": "array",
+      "$ref": "#/definitions/Checkin"
+    },
+    "Available": {
+      "type": "array",
+      "$ref": "#/definitions/Checkin"
+    },
+    "Places": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "GenericStringResponse": {
+      "type": "string"
+    }
+  }
+}

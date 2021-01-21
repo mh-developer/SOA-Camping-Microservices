@@ -23,6 +23,7 @@ const Spaces = () => {
             .then((response) => {
                 if (response.data) {
                     setSpaces(response.data);
+                    console.log(response.data)
                 }
             })
             .catch((e) => {
@@ -112,11 +113,11 @@ const Spaces = () => {
                             />
                         </Fragment>
                     ) : (
-                        <Fragment>
-                            <h2>Add new space</h2>
-                            <AddSpaceForm addSpace={addSpace} />
-                        </Fragment>
-                    )}
+                            <Fragment>
+                                <h2>Add new space</h2>
+                                <AddSpaceForm addSpace={addSpace} />
+                            </Fragment>
+                        )}
                 </Col>
 
                 <Col md={8} className="tableCol">

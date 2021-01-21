@@ -15,7 +15,7 @@ const AddCheckinForm = (props) => {
     <Form
       onSubmit={(event) => {
         event.preventDefault();
-        if (!checkin.title) return;
+        if (!checkin.name) return;
 
         props.addCheckin(checkin);
         setCheckin(checkinModel);
@@ -25,7 +25,7 @@ const AddCheckinForm = (props) => {
         <Label>Ime</Label>
         <Input
           type="text"
-          name="title"
+          name="name"
           value={checkin.name}
           placeholder="Ime"
           onChange={handleInputChange}
@@ -35,7 +35,7 @@ const AddCheckinForm = (props) => {
         <Label>Info</Label>
         <Input
           type="text"
-          name="description"
+          name="no_people"
           placeholder="Info"
           value={checkin.no_people}
           onChange={handleInputChange}
@@ -46,7 +46,7 @@ const AddCheckinForm = (props) => {
         <Label>Datum</Label>
         <Input
           type="text"
-          name="status"
+          name="date"
           placeholder="Status"
           value={checkin.date}
           onChange={handleInputChange}

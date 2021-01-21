@@ -1,5 +1,5 @@
 export const checkinModel = {
-  name: "",
-  no_people: "",
-  date: "",
+  "name": "",
+  "no_people": "",
+  "date": ""
 };

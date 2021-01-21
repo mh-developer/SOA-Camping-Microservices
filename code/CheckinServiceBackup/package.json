@@ -1,0 +1,24 @@
+{
+  "name": "parkingservice",
+  "version": "1.0.0",
+  "description": "A service for managing parking places and categories etc.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.6.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "jwks-rsa": "^1.12.0",
+    "mongodb": "^3.6.3",
+    "rabbitmq-logger": "0.0.7",
+    "swagger-ui-express": "^4.1.5",
+    "winston": "^3.3.3",
+    "winston-fast-rabbitmq": "^2.2.0"
+  }
+}

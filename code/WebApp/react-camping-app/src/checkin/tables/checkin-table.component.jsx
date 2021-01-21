@@ -8,14 +8,16 @@ const CheckinTable = (props) => (
       <tr>
         <th>Ime</th>
         <th>Info</th>
-        <th>Status</th>
+        <th>Datum</th>
 
       </tr>
     </thead>
     <tbody>
+
       {props.checkin.length > 0 ? (
-        props.checkin.map((checkin, i) => (
-          <tr key={i}>
+        props.checkin.map((checkin) => (
+
+          <tr key={checkin._id}>
             {console.log(checkin)}
             <td>{checkin.name}</td>
             <td>{checkin.no_people}</td>

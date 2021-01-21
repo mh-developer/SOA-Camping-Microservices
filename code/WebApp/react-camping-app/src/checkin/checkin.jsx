@@ -25,6 +25,7 @@ const Checkin = () => {
             .then((response) => {
                 if (response.data) {
                     setCheckin(response.data);
+                    console.log(response.data)
                 }
             })
             .catch((e) => {
@@ -41,12 +42,10 @@ const Checkin = () => {
             audience: process.env.REACT_APP_CHECKIN_API_URL,
         });
         const createCheckin = {
-            title: checkin.title,
-            description: checkin.description,
-            from_date: checkin.from_date,
-            to_date: checkin.to_date,
-            type_of_camping: checkin.type_of_camping,
-            status: checkin.status,
+            name: checkin.name,
+            no_people: checkin.no_people,
+            date: checkin.date,
+
         };
 
         CheckinService.create(createCheckin, token)
@@ -89,6 +88,7 @@ const Checkin = () => {
         const token = await getAccessTokenWithPopup({
             audience: process.env.REACT_APP_CHECKIN_API_URL,
         });
+
         setEditing(false);
         console.log(id);
         console.log(updateCheckin);
@@ -96,7 +96,7 @@ const Checkin = () => {
             .then((response) => {
                 setCheckin(
                     checkin.map((checkin) =>
-                        checkin._id.$oid === id
+                        checkin._id === id
                             ? updateCheckin
                             : checkin
                     )
