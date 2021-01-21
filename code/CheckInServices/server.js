@@ -38,7 +38,7 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // User routes
 app.use(cors());
-app.use("/checkin", checkJwt, postRoutes);
+app.use("/api/checkin", checkJwt, postRoutes);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`server runs at ${PORT}`))

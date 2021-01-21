@@ -19,7 +19,7 @@
     "consumes": ["application/json"],
     "produces": ["application/json"],
     "paths": {
-        "/checkin": {
+        "/api/checkin": {
             "get": {
                 "tags": ["CheckIn"],
                 "summary": "Get all checkin info",
@@ -57,7 +57,7 @@
                 }
             }
         },
-        "/checkin/{id}": {
+        "/api/checkin/{id}": {
             "parameters": [
                 {
                     "name": "id",
@@ -143,7 +143,7 @@
                 }
             }
         },
-        "/checkin/informations": {
+        "/api/checkin/informations": {
             "get": {
                 "tags": ["CheckIn"],
                 "summary": "Gets the infos",

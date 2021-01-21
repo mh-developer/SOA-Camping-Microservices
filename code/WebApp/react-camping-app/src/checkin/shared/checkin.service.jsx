@@ -13,7 +13,7 @@ const getHead = (token) => ({
     },
 });
 
-const url = "/checkin";
+const url = "/api/checkin";
 const getAll = (accessToken) => {
     console.log(getHead(accessToken));
     console.log(" this is checkin")

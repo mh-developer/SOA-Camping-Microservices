@@ -8,7 +8,7 @@ const checkJwt = jwt({
         jwksRequestsPerMinute: 5,
         jwksUri: "https://soa-oauth.eu.auth0.com/.well-known/jwks.json",
     }),
-    audience: "http://localhost:5000",
+    audience: "http://studentdocker.informatika.uni-mb.si:32932",
     issuer: "https://soa-oauth.eu.auth0.com/",
     algorithms: ["RS256"],
 });
