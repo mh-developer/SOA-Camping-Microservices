@@ -1,0 +1,117 @@
+version: "3.9"
+
+networks:
+    camps-network:
+        driver: bridge
+
+services:
+  camps-service:
+    image: mh7860/campsapi:latest
+    container_name: CampsAPI
+    restart: always
+    build:
+      context: ./CampService
+      dockerfile: ./CampService/CampService/Dockerfile
+    ports:
+      - "27000:80"
+      - "27001:443"
+    networks:
+      - camps-network
+
+  reservation-service:
+    image: mh7860/reservation-service:latest
+    container_name: ReservationsAPI
+    restart: always
+    build:
+      context: ./ReservationService
+      dockerfile: ./ReservationService/Dockerfile
+    ports:
+      - "27777:80"
+      - "27778:443"
+    environment:
+      CAMP_API_URL: "http://camps-service"
+      MAIL_API_URL: "http://mail-service:8080"
+    networks:
+      - camps-network
+
+  parking-service:
+    image: mh7860/parking-service:latest
+    container_name: ParkingService
+    restart: always
+    build:
+      context: ./ParkingService
+      dockerfile: ./ParkingService/Dockerfile
+    ports:
+      - "32964:5000"
+    networks:
+      - camps-network
+
+  activity-service:
+    image: mh7860/activity-service:latest
+    container_name: ActivityService
+    restart: always
+    build:
+      context: ./ActivityService
+      dockerfile: ./ActivityService/Dockerfile
+    ports:
+      - "27333:8080"
+    networks:
+      - camps-network
+      
+  checkin-service:
+    image: mh7860/checkin-service:latest
+    container_name: CheckInServices
+    restart: always
+    build:
+      context: ./CheckInServices
+      dockerfile: ./CheckInServices/Dockerfile
+    ports:
+      - "32932:5000"
+    networks:
+      - camps-network
+
+  react-camping-app:
+    image: mh7860/react-camping-app:latest
+    container_name: ReactCampingApp
+    restart: always
+    build:
+      context: ./WebApp/react-camping-app
+      dockerfile: ./WebApp/react-camping-app/Dockerfile
+    ports:
+      - "7860:80"
+      - "7861:443"
+    environment:
+      REACT_APP_CAMPS_API_URL: http://camps-service:27000
+      REACT_APP_SPACES_API_URL: http://parking-service:32964
+      REACT_APP_CHECKIN_API_URL: http://checkin-service:32932
+      REACT_APP_ACTIVITIES_API_URL: http://activity-service:27333
+      REACT_APP_RESERVATIONS_API_URL: http://reservation-service:27777
+    networks:
+      - camps-network
+
+  mail-service:
+    image: mh7860/mail-service:latest
+    container_name: CampsMailService
+    restart: always
+    build:
+      context: ./MailService
+      dockerfile: ./MailService/Dockerfile
+    ports:
+      - "27555:8080"
+    environment:
+      SENDGRID_API_KEY: ""
+      SENDGRID_FROM_MAIL: ""
+    networks:
+      - camps-network
+
+  logging-service:
+    image: mh7860/logging-service:latest
+    container_name: CampsLoggingService
+    restart: always
+    build:
+      context: ./LoggingService
+      dockerfile: ./LoggingService/Dockerfile
+    ports:
+      - "27007:3000"
+    networks:
+      - camps-network
