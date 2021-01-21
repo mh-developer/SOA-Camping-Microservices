@@ -97,6 +97,17 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/mail-service:${{ steps.time.outputs.time }}
             ${{ secrets.DOCKER_HUB_USERNAME }}/mail-service:latest
 
+      - name: Build and push CheckInServices
+        id: CheckinService
+        uses: docker/build-push-action@v2
+        with:
+          context: ./code/CheckInServices/
+          file: ./code/CheckInServices/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/checkin-service:${{ steps.time.outputs.time }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/checkin-service:latest
+
       #- name: Build and push ActivityService
       #  id: ActivityService
       #  uses: docker/build-push-action@v2
