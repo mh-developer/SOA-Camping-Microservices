@@ -25,7 +25,7 @@
     "@testing-library/user-event": "^12.5.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "jest-fetch-mock": "^3.0.3",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.20"
   },
   "scripts": {
     "start": "react-scripts start",
